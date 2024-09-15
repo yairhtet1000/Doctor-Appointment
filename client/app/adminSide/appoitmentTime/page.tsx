@@ -131,6 +131,7 @@ const AppoitmentTime = () => {
                 />
               </PopoverContent>
             </Popover>
+            <Button>Add</Button>
           </DialogContent>
         </Dialog>
       </div>
