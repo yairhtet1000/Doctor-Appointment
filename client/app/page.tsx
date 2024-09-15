@@ -14,6 +14,13 @@ export default function Home() {
       >
         To Admin Page
       </Button>
+      <Button
+        onClick={() => {
+          router.push("/auth/login");
+        }}
+      >
+        To auth Pages
+      </Button>
     </div>
   );
 }
