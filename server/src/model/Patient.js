@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const DoctorSchema = new mongoose.Schema({
+const patientSchema = new mongoose.Schema({
   name: {
     type: String,
     require: true,
@@ -13,6 +13,5 @@ const DoctorSchema = new mongoose.Schema({
   },
 });
 
-const Doctor = mongoose.model("Doctor", DoctorSchema);
-
-module.exports = Doctor;
+const Patinet = mongoose.model("Patient", patientSchema);
+module.exports = Patinet;
