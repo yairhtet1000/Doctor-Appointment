@@ -78,16 +78,16 @@ const adminSideLayout = ({ children }: Prop) => {
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
+      <div className="hidden border-r bg-muted/40 md:block ">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link
               href="/adminSide"
               className="flex items-center gap-2 font-semibold"
             >
-              <Gauge className="h-6 w-6" />
+              <Gauge className="h-6 w-6 dark:text-white" />
 
-              <span className="">DashBoard</span>
+              <span className="dark:text-white">DashBoard</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -97,9 +97,9 @@ const adminSideLayout = ({ children }: Prop) => {
                   <Link
                     key={item.id}
                     href={item.to}
-                    className="flex items-center gap-3 rounded-lg px-3 py-5 text-muted-foreground transition-all hover:text-primary"
+                    className="flex items-center gap-3 rounded-lg px-3 py-5 text-muted-foreground transition-all hover:text-primary "
                   >
-                    {item.icon} {item.name}
+                    {item.icon} <p>{item.name}</p>
                   </Link>
                 );
               })}
