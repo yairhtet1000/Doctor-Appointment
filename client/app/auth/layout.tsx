@@ -1,3 +1,4 @@
+import { ThemeToggle } from "@/components/theme/toggle-theme";
 import { ReactNode } from "react";
 
 interface Prop {
@@ -5,7 +6,12 @@ interface Prop {
 }
 const AuthLayout = ({ children }: Prop) => {
   return (
-    <div className="h-screen flex justify-center items-center">{children}</div>
+    <>
+      <ThemeToggle />
+      <div className="h-screen flex justify-center items-center">
+        {children}
+      </div>
+    </>
   );
 };
 
