@@ -37,6 +37,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ReactNode } from "react";
+import { ThemeToggle } from "@/components/theme/toggle-theme";
 
 interface Prop {
   children: ReactNode;
@@ -85,9 +86,9 @@ const adminSideLayout = ({ children }: Prop) => {
               href="/adminSide"
               className="flex items-center gap-2 font-semibold"
             >
-              <Gauge className="h-6 w-6 dark:text-white" />
+              <Gauge className="h-6 w-6 " />
 
-              <span className="dark:text-white">DashBoard</span>
+              <span className="">DashBoard</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -155,6 +156,7 @@ const adminSideLayout = ({ children }: Prop) => {
               </div>
             </form>
           </div>
+          <ThemeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
