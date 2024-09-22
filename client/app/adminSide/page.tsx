@@ -1,6 +1,5 @@
 import AdminDetailCards from "@/components/adminSide/adminDetailCards";
 import { Chart } from "@/components/adminSide/chart";
-import { Button } from "@/components/ui/button";
 import { ChartConfig } from "@/components/ui/chart";
 import { NotebookText, ScrollText, Stethoscope, Users } from "lucide-react";
 
@@ -21,7 +20,7 @@ const DashBoard = () => {
     { month: "July", earning: 214 },
     { month: "August", earning: 214 },
     { month: "September", earning: 214 },
-    { month: "October", earning: 214 },
+    { month: "October", earning: 745 },
     { month: "November", earning: 214 },
     { month: "December", earning: 214 },
   ];
@@ -59,7 +58,7 @@ const DashBoard = () => {
           chartConfig={chartConfig}
           dataKeyY="earning"
           dataKeyX="month"
-          strokeColor="hsl(var(--chart-1))"
+          strokeColor={"blue"}
         />
       </div>
     </>
