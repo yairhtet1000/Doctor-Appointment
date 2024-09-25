@@ -43,6 +43,7 @@ const DashBoard = () => {
         {dashBoardDetails.map((item) => {
           return (
             <AdminDetailCards
+              key={item.id}
               header={item.header}
               count={item.number}
               icon={item.icon}
