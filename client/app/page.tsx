@@ -21,6 +21,13 @@ export default function Home() {
       >
         To auth Pages
       </Button>
+      <Button
+        onClick={() => {
+          router.push("/home");
+        }}
+      >
+        To User Pages
+      </Button>
     </div>
   );
 }
