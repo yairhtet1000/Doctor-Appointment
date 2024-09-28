@@ -3,14 +3,18 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-const BackButton = () => {
+interface Prop {
+  to: string;
+}
+
+const AdminSideBackButton = ({ to }: Prop) => {
   const route = useRouter();
   return (
     <div>
       <Button
         variant="default"
         onClick={() => {
-          route.push("/adminSide/doctors");
+          route.push(`/adminSide/${to}`);
         }}
       >
         <ChevronLeft />
@@ -18,4 +22,4 @@ const BackButton = () => {
     </div>
   );
 };
-export default BackButton;
+export default AdminSideBackButton;

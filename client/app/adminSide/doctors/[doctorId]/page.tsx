@@ -12,7 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Doctor } from "@/types/doctor";
-import BackButton from "@/components/adminSide/backButton";
+import BackButton from "@/components/adminSide/adminSideBackButton";
+import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
 
 const EditDoctorDetail = () => {
   const [editDoctor, setEditDoctor] = useState<Doctor>({
@@ -27,7 +28,7 @@ const EditDoctorDetail = () => {
   });
   return (
     <div>
-      <BackButton />
+      <AdminSideBackButton to="doctors" />
       <div className="flex flex-col gap-4">
         <p>Name</p>
         <Input

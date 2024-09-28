@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { newDoctor } from "@/types/doctor";
+import { MultiSelect } from "./multiSelecter";
 const AddNewDoctorButton = () => {
   const [newDoctor, setNewDoctor] = useState<newDoctor>({
     name: "",
@@ -28,15 +29,43 @@ const AddNewDoctorButton = () => {
     description: "",
     hospitalLocation: "",
     image: "",
+    timeTable: [],
   });
+  const frameworksList = [
+    {
+      value: "4-5pm",
+      label: "4-5pm",
+      icon: undefined,
+    },
+    {
+      value: "5-6pm",
+      label: "5-6pm",
+      icon: undefined,
+    },
+    {
+      value: "6-7pm",
+      label: "6-7pm",
+      icon: undefined,
+    },
+    {
+      value: "7-8pm",
+      label: "7-8pm",
+      icon: undefined,
+    },
+    {
+      value: "8-9pm",
+      label: "8-9pm",
+      icon: undefined,
+    },
+  ];
   return (
     <Dialog>
       <DialogTrigger>
         <Button>+ Add New Doctor</Button>
       </DialogTrigger>
-      <DialogContent className="bg-white">
+      <DialogContent className="">
         <DialogHeader>
-          <DialogTitle>Add New Appotiment For Patient</DialogTitle>
+          <DialogTitle>Add New Doctor</DialogTitle>
         </DialogHeader>
         <p> Name</p>
         <Input
@@ -93,6 +122,13 @@ const AddNewDoctorButton = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
+        <MultiSelect
+          options={frameworksList}
+          onValueChange={(e) => {
+            const selectedTimeTable = e as [];
+            setNewDoctor({ ...newDoctor, timeTable: selectedTimeTable });
+          }}
+        />
         <Button>Add</Button>
       </DialogContent>
     </Dialog>

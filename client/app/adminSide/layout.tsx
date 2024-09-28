@@ -7,6 +7,7 @@ import {
   Gauge,
   HandCoins,
   Home,
+  Hospital,
   LineChart,
   Menu,
   NotepadText,
@@ -54,7 +55,7 @@ const adminSideLayout = ({ children }: Prop) => {
     {
       id: 2,
       name: "Patient Appointment",
-      to: "/adminSide/patientAppoitment",
+      to: "/adminSide/patientAppointment",
       icon: <NotepadText />,
     },
     {
@@ -74,6 +75,12 @@ const adminSideLayout = ({ children }: Prop) => {
       name: "Doctors",
       to: "/adminSide/doctors",
       icon: <ClipboardPlus />,
+    },
+    {
+      id: 6,
+      name: "Hospital Locations",
+      to: "/adminSide/hospitalLocations",
+      icon: <Hospital />,
     },
   ];
 

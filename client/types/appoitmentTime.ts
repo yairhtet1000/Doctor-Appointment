@@ -1,4 +1,4 @@
-export interface AppoitmentTime {
+export interface appoitmentTime {
   AppoitmentName: string;
   DoctorName: string;
   Status: string;

@@ -17,4 +17,5 @@ export interface newDoctor {
   description: string;
   hospitalLocation: string;
   image: string;
+  timeTable: [];
 }
