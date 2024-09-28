@@ -6,40 +6,12 @@ GET http://localhost:8000/api/doctors
 POST http://localhost:8000/api/doctors/register
 Content-Type: application/json
 {
-    {
     "name":"yaco",
     "email": "doctor@gmail.com",
     "phone":"09234542",
-    "specility":"66ef8bb0b7bd10855c3408d6"
-    }
+    "specialty":"66ef8bb0b7bd10855c3408d6"
 }
 
 ###
 //delete doctor
 DELETE http://localhost:8000/api/doctors/{doctor_id}
-
-
-###
-//Get all appointments
-GET http://localhost:8000/api/appointment/
-
-###
-//create appointment
-POST http://localhost:8000/api/appointment/c
-Content-Type: application/json
-{
-    "patient_id":"66e6ebaf548850009576866c",
-    "doctor_id":"66e709e1a72738e69912dd0d",
-    "appointment_date":"2024-09-20T15:00:00Z"
-}
-###
-
-//delete appointemnt
-DELETE http://localhost:8000/api/appointment/{appointment_id}
-
-###
-
-//get all patients
-GET http://localhost:8000/api/patients/
-
-###

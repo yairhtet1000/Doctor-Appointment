@@ -4,7 +4,7 @@ const validator = require("validator");
 const getDoctor = async (req, res) => {
   try {
     const doctors = await Doctor.find().populate(
-      "specility",
+      "specialty",
       "specializedName"
     );
     res.status(200).json(doctors);
@@ -14,11 +14,11 @@ const getDoctor = async (req, res) => {
 };
 
 const createDoctor = async (req, res) => {
-  const { name, email, phone, specility } = req.body;
+  const { name, email, phone, specialty } = req.body;
   try {
     const uniqueEmail = await Doctor.findOne({ email: email });
     if (!uniqueEmail) {
-      const doctor = new Doctor({ name, email, phone, specility });
+      const doctor = new Doctor({ name, email, phone, specialty });
       await doctor.save();
       res.status(200).json(doctor);
     } else {

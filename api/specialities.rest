@@ -1,13 +1,13 @@
-//get all specilities
-GET http://localhost:8000/api/specialities/
+//get all specialties
+GET http://localhost:8000/api/specialties/
 
 ###
-//create speciality
-POST http://localhost:8000/api/specialities/c HTTP/1.1
+//create specialty
+POST http://localhost:8000/api/specialties/create HTTP/1.1
 {
     "name" : "Surgery"
 }
 
 ###
-//delete speciality
-DELETE http://localhost:8000/api/specialities/{id} HTTP/1.1
+//delete specialty
+DELETE http://localhost:8000/api/specialties/{id} HTTP/1.1

@@ -10,7 +10,7 @@ const createAppointment = async (req, res) => {
       appointment_date,
     });
     await appointment.save();
-    res.status(200).json({ message: "appointmnet created successfully" });
+    res.status(200).json({ message: "Appointment created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -37,7 +37,7 @@ const deleteAppointments = async (req, res) => {
         await Appointment.deleteOne({ _id: appointment_id });
         res.status(200).json({ message: "Deleted Successfully." });
       } else {
-        res.status(404).json({ error: "appoinment doesn't exist" });
+        res.status(404).json({ error: "Appointment doesn't exist" });
       }
     } else {
       res.status(400).json({ error: "Enter Valid ID." });

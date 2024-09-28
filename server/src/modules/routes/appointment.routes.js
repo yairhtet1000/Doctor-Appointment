@@ -5,7 +5,7 @@ const appointmentController = require("../controllers/AppointmentController");
 appointmentRotuer.get("/", appointmentController.getAppointments);
 
 //post
-appointmentRotuer.post("/c", appointmentController.createAppointment);
+appointmentRotuer.post("/create", appointmentController.createAppointment);
 
 //delete
 appointmentRotuer.post(

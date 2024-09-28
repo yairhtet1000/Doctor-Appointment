@@ -1,0 +1,17 @@
+###
+//Get all appointments
+GET http://localhost:8000/api/appointment/
+
+###
+//create appointment
+POST http://localhost:8000/api/appointment/create
+Content-Type: application/json
+{
+    "patient_id":"66e6ebaf548850009576866c",
+    "doctor_id":"66e709e1a72738e69912dd0d",
+    "appointment_date":"2024-09-20T15:00:00Z"
+}
+
+###
+//delete appointment
+DELETE http://localhost:8000/api/appointment/{appointment_id}

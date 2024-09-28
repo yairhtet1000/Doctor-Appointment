@@ -7,7 +7,7 @@ const doctorRotuer = Router();
 doctorRotuer.get("/", doctorController.getDoctor);
 
 //post
-doctorRotuer.post("/register", doctorController.createDoctor);
+doctorRotuer.post("/create", doctorController.createDoctor);
 
 // delete
 doctorRotuer.delete("/:doctorID", doctorController.deleteDoctor);
