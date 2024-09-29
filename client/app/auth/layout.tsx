@@ -6,12 +6,14 @@ interface Prop {
 }
 const AuthLayout = ({ children }: Prop) => {
   return (
-    <>
-      <ThemeToggle />
+    <div>
+      <div className="absolute right-5 top-5 p-7">
+        <ThemeToggle />
+      </div>
       <div className="h-screen flex justify-center items-center">
         {children}
       </div>
-    </>
+    </div>
   );
 };
 
