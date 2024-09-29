@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { CircleUser, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,27 +15,33 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { ThemeToggle } from "@/components/theme/toggle-theme";
+import { usePathname } from "next/navigation";
 const Nav = () => {
+  const pathname = usePathname();
   const nav = [
     {
       id: 1,
       name: "Appointment ",
-      to: "/appoitment",
+      to: "/appointment",
+      isActive: pathname.startsWith("/appointment"),
     },
     {
       id: 2,
       name: "Doctors",
       to: "/doctors",
+      isActive: pathname.startsWith("/doctors"),
     },
     {
       id: 3,
       name: "About Us",
       to: "/aboutUs",
+      isActive: pathname.includes("/aboutUs"),
     },
     {
       id: 4,
       name: "Booking",
       to: "/booking",
+      isActive: pathname.includes("/booking"),
     },
   ];
   return (
@@ -80,9 +87,11 @@ const Nav = () => {
               <Link
                 key={item.id}
                 href={item.to}
-                className="flex gap-2 items-center hover:bg-gray-700 hover:text-white rounded-xl"
+                className="flex gap-2 items-center"
               >
-                <p className="text-sm p-2">{item.name}</p>
+                <Button variant={item.isActive ? "default" : "ghost"}>
+                  {item.name}
+                </Button>
               </Link>
             );
           })}
