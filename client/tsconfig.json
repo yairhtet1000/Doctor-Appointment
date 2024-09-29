@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/adminSide/appoitmentTime"
+    "app/adminSide/appointmentTime"
   ],
   "exclude": [
     "node_modules"

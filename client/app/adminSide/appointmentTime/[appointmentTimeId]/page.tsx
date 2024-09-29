@@ -27,9 +27,20 @@ import {
 } from "@/components/ui/select";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { appoitmentTime } from "@/types/appoitmentTime";
-import { MultiSelect } from "./multiSelecter";
-const AddNewAppointment = () => {
+import { appoinementTimePayload, appoitmentTime } from "@/types/appoitmentTime";
+import { MultiSelect } from "@/components/adminSide/multiSelecter";
+import DeleteAppointmentButtonDialog from "@/components/adminSide/deleteAppointmentTimeButtonDialog";
+import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
+const AppointmentTimeDetail = () => {
+  const [updateAppointmentTime, setUpdateAppointmentTime] =
+    useState<appoinementTimePayload>({
+      id: "",
+      AppoitmentName: "",
+      DoctorName: "",
+      Status: "",
+      Date: null,
+      time: [],
+    });
   const frameworksList = [
     {
       value: "4-5pm",
@@ -52,29 +63,16 @@ const AddNewAppointment = () => {
       label: "8-9pm",
     },
   ];
-  const [newAppoitment, setNewAppoitment] = useState<appoitmentTime>({
-    AppoitmentName: "",
-    DoctorName: "",
-    Status: "",
-    Date: null,
-    time: [],
-  });
-  console.log(newAppoitment);
   return (
-    <Dialog>
-      <DialogTrigger>
-        <Button>+ Add Appoitment</Button>
-      </DialogTrigger>
-      <DialogContent className="">
-        <DialogHeader>
-          <DialogTitle>Add New Appotiment For Patient</DialogTitle>
-        </DialogHeader>
+    <div>
+      <AdminSideBackButton to={"/appointmentTime"} />
+      <div className="flex flex-col gap-4">
         <p>Appoitment Name</p>
         <Input
           placeholder="Appoitment Name"
           onChange={(e) => {
-            setNewAppoitment({
-              ...newAppoitment,
+            setUpdateAppointmentTime({
+              ...updateAppointmentTime,
               AppoitmentName: e.target.value,
             });
           }}
@@ -82,7 +80,10 @@ const AddNewAppointment = () => {
         <p>Doctor </p>
         <Select
           onValueChange={(e) => {
-            setNewAppoitment({ ...newAppoitment, DoctorName: e });
+            setUpdateAppointmentTime({
+              ...updateAppointmentTime,
+              DoctorName: e,
+            });
           }}
         >
           <SelectTrigger className="">
@@ -102,7 +103,7 @@ const AddNewAppointment = () => {
         <p>Status</p>
         <Select
           onValueChange={(e) => {
-            setNewAppoitment({ ...newAppoitment, Status: e });
+            setUpdateAppointmentTime({ ...updateAppointmentTime, Status: e });
           }}
         >
           <SelectTrigger className="">
@@ -123,12 +124,12 @@ const AddNewAppointment = () => {
               variant={"outline"}
               className={cn(
                 " justify-start text-left font-normal",
-                !newAppoitment.Date && "text-muted-foreground"
+                !updateAppointmentTime.Date && "text-muted-foreground"
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {newAppoitment.Date ? (
-                format(newAppoitment.Date as Date, "PPP")
+              {updateAppointmentTime.Date ? (
+                format(updateAppointmentTime.Date as Date, "PPP")
               ) : (
                 <span>Pick a date</span>
               )}
@@ -137,10 +138,8 @@ const AddNewAppointment = () => {
           <PopoverContent className=" p-0">
             <Calendar
               mode="single"
-              selected={newAppoitment.Date as Date}
-              onSelect={(e) => {
-                setNewAppoitment({ ...newAppoitment, Date: e as Date });
-              }}
+              selected={updateAppointmentTime.Date as Date}
+              onSelect={(e) => {}}
               initialFocus
             />
           </PopoverContent>
@@ -150,13 +149,21 @@ const AddNewAppointment = () => {
           options={frameworksList}
           onValueChange={(e) => {
             const selectedTimeTable = e as [];
-            setNewAppoitment({ ...newAppoitment, time: selectedTimeTable });
+            setUpdateAppointmentTime({
+              ...updateAppointmentTime,
+              time: selectedTimeTable,
+            });
           }}
         />
-        <Button>Add</Button>
-      </DialogContent>
-    </Dialog>
+        <div className="w-full flex justify-between">
+          <Button className="w-fit bg-green-600 hover:bg-green-500 text-white">
+            Update
+          </Button>
+          <DeleteAppointmentButtonDialog />
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default AddNewAppointment;
+export default AppointmentTimeDetail;

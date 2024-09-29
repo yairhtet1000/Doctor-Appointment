@@ -31,33 +31,7 @@ const AddNewDoctorButton = () => {
     image: "",
     timeTable: [],
   });
-  const frameworksList = [
-    {
-      value: "4-5pm",
-      label: "4-5pm",
-      icon: undefined,
-    },
-    {
-      value: "5-6pm",
-      label: "5-6pm",
-      icon: undefined,
-    },
-    {
-      value: "6-7pm",
-      label: "6-7pm",
-      icon: undefined,
-    },
-    {
-      value: "7-8pm",
-      label: "7-8pm",
-      icon: undefined,
-    },
-    {
-      value: "8-9pm",
-      label: "8-9pm",
-      icon: undefined,
-    },
-  ];
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -122,13 +96,7 @@ const AddNewDoctorButton = () => {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <MultiSelect
-          options={frameworksList}
-          onValueChange={(e) => {
-            const selectedTimeTable = e as [];
-            setNewDoctor({ ...newDoctor, timeTable: selectedTimeTable });
-          }}
-        />
+
         <Button>Add</Button>
       </DialogContent>
     </Dialog>

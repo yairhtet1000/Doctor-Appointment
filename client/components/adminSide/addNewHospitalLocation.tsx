@@ -23,7 +23,7 @@ const AddNewHospitalLocation = () => {
         <DialogHeader>
           <DialogTitle>Add New Hospital Location</DialogTitle>
         </DialogHeader>
-        <p>Hospital Locations</p>
+        <p>Hospital Name</p>
         <Input
           placeholder="Enter Hospital Name"
           onChange={(e) =>
@@ -33,9 +33,9 @@ const AddNewHospitalLocation = () => {
             })
           }
         />
-        <p>Hospital City</p>
+        <p> City</p>
         <Input
-          placeholder="Enter Hospital City"
+          placeholder="Enter City"
           onChange={(e) =>
             setNewHospitalLocation({
               ...newHospitalLocation,
@@ -43,9 +43,9 @@ const AddNewHospitalLocation = () => {
             })
           }
         />
-        <p>Hospital Address</p>
+        <p>Address</p>
         <Input
-          placeholder="Enter Hospital Address"
+          placeholder="Enter Address"
           onChange={(e) =>
             setNewHospitalLocation({
               ...newHospitalLocation,

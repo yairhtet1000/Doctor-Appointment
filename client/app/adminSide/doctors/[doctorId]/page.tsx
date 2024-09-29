@@ -14,6 +14,7 @@ import { useState } from "react";
 import { Doctor } from "@/types/doctor";
 import BackButton from "@/components/adminSide/adminSideBackButton";
 import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
+import DeleteDoctorButtonDialog from "@/components/adminSide/deleteDoctorButtonDialog";
 
 const EditDoctorDetail = () => {
   const [editDoctor, setEditDoctor] = useState<Doctor>({
@@ -89,9 +90,7 @@ const EditDoctorDetail = () => {
           <Button className="w-fit bg-green-600 hover:bg-green-500 text-white">
             Update
           </Button>
-          <Button className="w-fit bg-destructive hover:bg-red-500 text-white">
-            Delete
-          </Button>
+          <DeleteDoctorButtonDialog />
         </div>
       </div>
     </div>
