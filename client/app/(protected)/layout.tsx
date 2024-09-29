@@ -8,7 +8,7 @@ const UserPageLayout = ({ children }: Prop) => {
   return (
     <div>
       <Nav />
-      <div className="p-5">{children}</div>
+      <div className="mt-5 p-5">{children}</div>
     </div>
   );
 };
