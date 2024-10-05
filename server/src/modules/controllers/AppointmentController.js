@@ -2,12 +2,16 @@ const Appointment = require("../../model/Appointment");
 const validator = require("validator");
 
 const createAppointment = async (req, res) => {
-  const { patient_id, doctor_id, appointment_date } = req.body;
+  const { appointment_type, patient_id, doctor_id, date, status, time } =
+    req.body;
   try {
     const appointment = new Appointment({
+      appointment_type,
       patient_id,
       doctor_id,
-      appointment_date,
+      date,
+      status,
+      time,
     });
     await appointment.save();
     res.status(200).json({ message: "Appointment created successfully" });
@@ -19,11 +23,51 @@ const createAppointment = async (req, res) => {
 const getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find()
+      .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
       .populate("patient_id", "name email");
-    res.send(appointments);
+    res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+const getAppointment = async (req, res) => {
+  const { appointment_id } = req.params;
+
+  try {
+    if (validator.isMongoId(appointment_id.toString())) {
+      const appoinment = await Appointment.findById(appointment_id);
+      res.status(200).json(appoinment);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateAppointment = async (req, res) => {
+  const { appointment_type, patient_id, doctor_id, date, status, time } =
+    req.body;
+  const { appointment_id } = req.params;
+
+  try {
+    const update_appointment = await Appointment.findByIdAndUpdate(
+      appointment_id,
+      {
+        appointment_type,
+        patient_id,
+        doctor_id,
+        date,
+        status,
+        time,
+      }
+    );
+    if (!update_appointment) {
+      res.status(404).json({ error: "appointment not found" });
+    }
+    res.status(200).json({ message: "updated successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -51,4 +95,6 @@ module.exports = {
   createAppointment,
   getAppointments,
   deleteAppointments,
+  getAppointment,
+  updateAppointment,
 };

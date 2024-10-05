@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const specialtiesSchema = new mongoose.Schema({
   specializedName: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 

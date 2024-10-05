@@ -3,6 +3,7 @@ const validator = require("validator");
 
 const createSpecialties = async (req, res) => {
   const { name } = req.body;
+
   try {
     const specialty = new Specialties({ specializedName: name });
     await specialty.save();
@@ -23,7 +24,6 @@ const getSpecialties = async (req, res) => {
 
 const deleteSpecialties = async (req, res) => {
   const { specialty_id } = req.params;
-  console.log(specialty_id);
 
   try {
     if (validator.isMongoId(specialty_id.toString())) {
