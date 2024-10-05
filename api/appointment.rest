@@ -1,5 +1,6 @@
 //Get all appointments
 GET http://localhost:8000/api/appointment/
+
 ###
 //
 GET http://localhost:8000/api/appointment/66e794068df99564dee6535f
@@ -8,7 +9,6 @@ GET http://localhost:8000/api/appointment/66e794068df99564dee6535f
 //create appointment
 POST http://localhost:8000/api/appointment/create HTTP/1.1
 Content-Type: application/json
-
 {
     "appointment_type":"6700ad79f67ac13cffcdab28",
     "patient_id":"66eebd562f325d1cd7f599d7",
@@ -22,32 +22,29 @@ Content-Type: application/json
 //update
 PUT http://localhost:8000/api/appointment/update/6700b5178d72b1b505cc1422 HTTP/1.1
 Content-Type: application/json
-
 {
     "appointment_type":"6700ad79f67ac13cffcdab28",
     "time":"4:30"
 }
 
 ###
-
-//delete appointemnt
+//delete appointment
 DELETE http://localhost:8000/api/appointment/6700b39a999d124f090c0463
-###
 
+###
 //Appointment type
 
 //get
 GET http://localhost:8000/api/appointment/types/all
+
 ###
-
-
 //create type
 POST http://localhost:8000/api/appointment/type/create HTTP/1.1
 Content-Type: application/json
-
 {
     "name":"TestType"
 }
+
 ###
 //delete
 DELETE http://localhost:8000/api/appointment/type/delete/6700b3b2999d124f090c0469 

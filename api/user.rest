@@ -1,0 +1,35 @@
+###
+//get all patients
+GET http://localhost:8000/api/users/
+
+//get one patient
+GET http://localhost:8000/api/users/{userID}
+
+###
+//create patient
+POST http://localhost:8000/api/users/register HTTP/1.1
+Content-Type: application/json
+{
+    "name": "yaco",
+    "email": "yaco@gmail.com",
+    "phone": 1234,
+    "password": "yaco",
+    "banned":false
+}
+
+###
+//login patient
+POST http://localhost:8000/api/users/login HTTP/1.1
+Content-Type: application/json
+{
+    "email": "yaco@gmail.com",
+    "password": "yaco"
+}
+
+###
+//update patient
+PATCH http://localhost:8000/api/users/update/{userID} HTTP/1.1
+
+###
+//delete patient
+DELETE http://localhost:8000/api/users/delete/{userID} HTTP/1.1

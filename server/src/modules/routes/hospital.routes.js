@@ -1,36 +1,36 @@
 const { Router } = require("express");
-const hospitalLocationController = require("../controllers/HospitalLocatonController");
+const hospitalLocationController = require("../controllers/HospitalLocationController");
 
-const hostipalLocationRouter = Router();
+const hospitalLocationRouter = Router();
 
 // get
-hostipalLocationRouter.get(
+hospitalLocationRouter.get(
   "/",
   hospitalLocationController.getHospitalLocations
 );
 
 //post
-hostipalLocationRouter.post(
+hospitalLocationRouter.post(
   "/create",
   hospitalLocationController.createHospitalLocation
 );
 
 //get by id
-hostipalLocationRouter.get(
+hospitalLocationRouter.get(
   "/:location_id",
   hospitalLocationController.getHospitalLocation
 );
 
 //update
-hostipalLocationRouter.put(
+hospitalLocationRouter.put(
   "/update/:location_id",
   hospitalLocationController.updateHospitalLocation
 );
 
 // delete
-hostipalLocationRouter.delete(
+hospitalLocationRouter.delete(
   "/:location_id",
   hospitalLocationController.deleteHospitalLocation
 );
 
-module.exports = hostipalLocationRouter;
+module.exports = hospitalLocationRouter;
