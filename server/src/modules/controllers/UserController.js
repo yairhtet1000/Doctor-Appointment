@@ -1,81 +1,81 @@
-const Patient = require("../../model/Patient");
+const User = require("../../model/User");
 const argon2 = require("argon2");
 const validator = require("validator");
 const jsonwebtoken = require("jsonwebtoken");
 
-const getPatients = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
-    const patients = await Patient.find().select("-password");
-    res.status(200).json(patients);
+    const users = await User.find().select("-hashedPassword");
+    res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
-const getPatientByID = async (req, res) => {
-  const { patientID } = req.params;
+const getUserByID = async (req, res) => {
+  const { userID } = req.params;
 
   try {
-    if (!validator.isMongoId(patientID.toString()))
+    if (!validator.isMongoId(userID.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
-    const patient = await Patient.findById(patientID).select("-password");
+    const user = await User.findById(userID).select("-hashedPassword");
 
-    if (!patient) return res.status(404).json({ error: "Patient Not Found." });
+    if (!user) return res.status(404).json({ error: "User Not Found." });
 
-    res.status(200).json(patient);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const createPatient = async (req, res) => {
-  const { name, email, phone, password } = req.body;
+const createUser = async (req, res) => {
+  const { name, email, phone, password, banned } = req.body;
 
   try {
     if (!isValidEmail(email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const usedEmail = await Patient.findOne({ email });
+    const usedEmail = await User.findOne({ email });
     const hashedPassword = await argon2.hash(password);
 
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    const patient = new Patient({ name, email, phone, hashedPassword });
-    await patient.save();
-    res.status(200).json(patient.select("-password"));
+    const user = new User({ name, email, phone, hashedPassword, banned });
+    await user.save();
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const patientLogin = async (req, res) => {
+const userLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const getPatient = await Patient.findOne({ email });
-    const dbsPassword = getPatient.hashedPassword;
+    const getUser = await User.findOne({ email });
+    const dbsPassword = getUser.hashedPassword;
     const truePassword = await argon2.verify(dbsPassword, password);
 
-    if (!getPatient) return res.status(400).json({ error: "Incorrect Email." });
+    if (!getUser) return res.status(400).json({ error: "Incorrect Email." });
 
     if (!truePassword)
       return res.status(400).json({ error: "Incorrect Password." });
 
     const accessToken = jsonwebtoken.sign(
       {
-        _id: getPatient.id,
-        name: getPatient.name,
+        _id: getUser.id,
+        name: getUser.name,
       },
       process.env.jwt_salt
     );
 
-    const showPatient = getPatient.select("-password");
+    // const showUser = getUser.select("-hashedPassword");
 
     res.status(200).json({
       message: "Login Successful",
-      showPatient,
+      getUser,
       accessToken,
     });
   } catch (error) {
@@ -83,44 +83,44 @@ const patientLogin = async (req, res) => {
   }
 };
 
-const updatePatient = async (req, res) => {
-  const { patientID } = req.params;
+const updateUser = async (req, res) => {
+  const { userID } = req.params;
   const updatedData = req.body;
 
   try {
-    if (!validator.isMongoId(patientID.toString()))
+    if (!validator.isMongoId(userID.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
     if (updatedData.email && !isValidEmail(updatedData.email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const patient = await Patient.findByIdAndUpdate(patientID, updatedData, {
+    const user = await User.findByIdAndUpdate(userID, updatedData, {
       new: true,
       runValidators: true,
     });
 
-    if (!patient) {
+    if (!user) {
       return res.status(404).json({ error: "Patient Not Found." });
     }
 
-    const showPatient = patient.select("-password");
+    // const showUser = user.select("-hashedPassword");
 
-    res.status(200).json(showPatient);
+    res.status(200).json(user);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const deletePatient = async (req, res) => {
-  const { patientID } = req.params;
+const deleteUser = async (req, res) => {
+  const { userID } = req.params;
 
   try {
-    if (!validator.isMongoId(patientID.toString()))
+    if (!validator.isMongoId(userID.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
-    const deletePatient = await Patient.findByIdAndDelete(patientID);
+    const deleteUser = await User.findByIdAndDelete(userID);
 
-    if (!deletePatient)
+    if (!deleteUser)
       return res.status(404).json({ error: "Patient Not Found." });
 
     res.status(200).json({ message: "Deleted Successfully." });
@@ -135,10 +135,10 @@ const isValidEmail = (email) => {
 };
 
 module.exports = {
-  getPatients,
-  getPatientByID,
-  createPatient,
-  patientLogin,
-  updatePatient,
-  deletePatient,
+  getUsers,
+  getUserByID,
+  createUser,
+  userLogin,
+  updateUser,
+  deleteUser,
 };

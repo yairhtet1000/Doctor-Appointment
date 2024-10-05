@@ -5,9 +5,9 @@ const createHospitalLocation = async (req, res) => {
   const { location, city, address } = req.body;
 
   try {
-    const hostipalLocation = new HospitalLocation({ location, city, address });
-    await hostipalLocation.save();
-    res.status(200).json({ message: "hostipal Location created successfully" });
+    const hospitalLocation = new HospitalLocation({ location, city, address });
+    await hospitalLocation.save();
+    res.status(200).json({ message: "Hospital Location created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

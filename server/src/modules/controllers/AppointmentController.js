@@ -37,8 +37,8 @@ const getAppointment = async (req, res) => {
 
   try {
     if (validator.isMongoId(appointment_id.toString())) {
-      const appoinment = await Appointment.findById(appointment_id);
-      res.status(200).json(appoinment);
+      const appointment = await Appointment.findById(appointment_id);
+      res.status(200).json(appointment);
     }
   } catch (error) {
     res.status(500).json({ error: error.message });

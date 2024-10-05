@@ -17,17 +17,17 @@ Content-Type: application/json
     "name":"yaco",
     "email": "doctor@gmail.com",
     "phone":"09234542",
-    "specility":"66ef8bb0b7bd10855c3408d6"//specility_id
+    "specialty":"66ef8bb0b7bd10855c3408d6" //specialty_id
     }
 }
 
 ###
 //update doctor
-GET http://localhost:8000/api/doctors/update/{doctorID}
+PATCH http://localhost:8000/api/doctors/update/{doctorID}
 
 ###
 //archive doctor
-GET http://localhost:8000/api/doctors/archive/{doctorID}
+PATCH http://localhost:8000/api/doctors/archive/{doctorID}
 
 ###
 //delete doctor
