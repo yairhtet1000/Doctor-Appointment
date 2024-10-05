@@ -3,15 +3,23 @@ GET http://localhost:8000/api/doctors
 
 ###
 //create doctor
-POST http://localhost:8000/api/doctors/register
+POST http://localhost:8000/api/doctors/register HTTP/1.1
 Content-Type: application/json
 {
+    {
     "name":"yaco",
     "email": "doctor@gmail.com",
     "phone":"09234542",
-    "specialty":"66ef8bb0b7bd10855c3408d6"
+    "specility":"66ef8bb0b7bd10855c3408d6"//specility_id
+    }
 }
 
 ###
 //delete doctor
-DELETE http://localhost:8000/api/doctors/{doctor_id}
+DELETE http://localhost:8000/api/doctors/{doctor_id} HTTP/1.1
+
+
+###
+
+
+
