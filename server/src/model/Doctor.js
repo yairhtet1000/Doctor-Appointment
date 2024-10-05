@@ -19,6 +19,11 @@ const DoctorSchema = new mongoose.Schema({
     ref: "Specialties",
     require: true,
   },
+  isArchive: {
+    type: Boolean,
+    // default: false,
+    required: true,
+  },
 });
 
 const Doctor = mongoose.model("Doctor", DoctorSchema);
