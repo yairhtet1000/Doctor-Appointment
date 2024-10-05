@@ -1,5 +1,12 @@
+###
 //get all doctors
-GET http://localhost:8000/api/doctors
+GET http://localhost:8000/api/doctors/allDoctor
+
+//get one doctor
+GET http://localhost:8000/api/doctors/oneDoctor/{doctorID}
+
+//get archive doctors
+GET http://localhost:8000/api/doctors/archive
 
 ###
 //create doctor
@@ -15,11 +22,13 @@ Content-Type: application/json
 }
 
 ###
-//delete doctor
-DELETE http://localhost:8000/api/doctors/{doctor_id} HTTP/1.1
-
+//update doctor
+GET http://localhost:8000/api/doctors/update/{doctorID}
 
 ###
+//archive doctor
+GET http://localhost:8000/api/doctors/archive/{doctorID}
 
-
-
+###
+//delete doctor
+DELETE http://localhost:8000/api/doctors/delete/{doctor_id} HTTP/1.1

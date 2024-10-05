@@ -1,6 +1,9 @@
-
+###
 //get all patients
 GET http://localhost:8000/api/patients/
+
+//get one patient
+GET http://localhost:8000/api/patients/{patientID}
 
 ###
 //create patient
@@ -21,6 +24,11 @@ Content-Type: application/json
     "email": "yaco@gmail.com",
     "password": "yaco"
 }
+
+###
+//update patient
+//get all patients
+PATCH http://localhost:8000/api/patients/{patientIDs}
 
 ###
 //delete patient
