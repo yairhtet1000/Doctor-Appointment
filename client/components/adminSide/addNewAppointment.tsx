@@ -70,15 +70,25 @@ const AddNewAppointment = () => {
           <DialogTitle>Add New Appotiment For Patient</DialogTitle>
         </DialogHeader>
         <p>Appoitment Name</p>
-        <Input
-          placeholder="Appoitment Name"
-          onChange={(e) => {
-            setNewAppoitment({
-              ...newAppoitment,
-              AppoitmentName: e.target.value,
-            });
+        <Select
+          onValueChange={(e) => {
+            setNewAppoitment({ ...newAppoitment, AppoitmentName: e });
           }}
-        />
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select a Appointment Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Appointment Type</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="blueberry">Blueberry</SelectItem>
+              <SelectItem value="grapes">Grapes</SelectItem>
+              <SelectItem value="pineapple">Pineapple</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <p>Doctor </p>
         <Select
           onValueChange={(e) => {

@@ -2,13 +2,38 @@ import AdminDetailCards from "@/components/adminSide/adminDetailCards";
 import { Chart } from "@/components/adminSide/chart";
 import { ChartConfig } from "@/components/ui/chart";
 import { NotebookText, ScrollText, Stethoscope, Users } from "lucide-react";
+import Link from "next/link";
 
 const DashBoard = () => {
   const dashBoardDetails = [
-    { id: 1, header: "Patients", number: 1, icon: <Users /> },
-    { id: 2, header: "Doctors", number: 1, icon: <Stethoscope /> },
-    { id: 3, header: "Bookings", number: 1, icon: <NotebookText /> },
-    { id: 4, header: "Appoitments", number: 1, icon: <ScrollText /> },
+    {
+      id: 1,
+      header: "Patients",
+      number: 1,
+      icon: <Users />,
+      to: "/adminSide/users",
+    },
+    {
+      id: 2,
+      header: "Doctors",
+      number: 1,
+      icon: <Stethoscope />,
+      to: "/adminSide/doctors",
+    },
+    {
+      id: 3,
+      header: "Bookings",
+      number: 1,
+      icon: <NotebookText />,
+      to: "/adminSide/appointmentTime",
+    },
+    {
+      id: 4,
+      header: "Appointments",
+      number: 1,
+      icon: <ScrollText />,
+      to: "/adminSide/appointmentTime",
+    },
   ];
   const chartData = [
     { month: "January", earning: 186 },
@@ -42,12 +67,14 @@ const DashBoard = () => {
       >
         {dashBoardDetails.map((item) => {
           return (
-            <AdminDetailCards
-              key={item.id}
-              header={item.header}
-              count={item.number}
-              icon={item.icon}
-            />
+            <Link href={item.to}>
+              <AdminDetailCards
+                key={item.id}
+                header={item.header}
+                count={item.number}
+                icon={item.icon}
+              />
+            </Link>
           );
         })}
       </div>
