@@ -3,6 +3,7 @@ import {
   Bell,
   CircleUser,
   ClipboardPlus,
+  Clock10,
   Clock8,
   Gauge,
   HandCoins,
@@ -81,6 +82,18 @@ const adminSideLayout = ({ children }: Prop) => {
       name: "Hospital Locations",
       to: "/adminSide/hospitalLocations",
       icon: <Hospital />,
+    },
+    {
+      id: 7,
+      name: "Appointment Types",
+      to: "/adminSide/appointmentTypes",
+      icon: <Hospital />,
+    },
+    {
+      id: 8,
+      name: "Times",
+      to: "/adminSide/time",
+      icon: <Clock10 />,
     },
   ];
 

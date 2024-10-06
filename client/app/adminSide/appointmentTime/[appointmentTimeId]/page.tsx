@@ -31,6 +31,7 @@ import { appoinementTimePayload, appoitmentTime } from "@/types/appoitmentTime";
 import { MultiSelect } from "@/components/adminSide/multiSelecter";
 import DeleteAppointmentButtonDialog from "@/components/adminSide/deleteAppointmentTimeButtonDialog";
 import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
+import DeleteButtonDialog from "@/components/adminSide/deleteButtonDialog";
 const AppointmentTimeDetail = () => {
   const [updateAppointmentTime, setUpdateAppointmentTime] =
     useState<appoinementTimePayload>({
@@ -68,15 +69,28 @@ const AppointmentTimeDetail = () => {
       <AdminSideBackButton to={"/appointmentTime"} />
       <div className="flex flex-col gap-4">
         <p>Appoitment Name</p>
-        <Input
-          placeholder="Appoitment Name"
-          onChange={(e) => {
+        <Select
+          onValueChange={(e) => {
             setUpdateAppointmentTime({
               ...updateAppointmentTime,
-              AppoitmentName: e.target.value,
+              AppoitmentName: e,
             });
           }}
-        />
+        >
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select a Appointment Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Appointment Type</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="blueberry">Blueberry</SelectItem>
+              <SelectItem value="grapes">Grapes</SelectItem>
+              <SelectItem value="pineapple">Pineapple</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <p>Doctor </p>
         <Select
           onValueChange={(e) => {
@@ -159,7 +173,10 @@ const AppointmentTimeDetail = () => {
           <Button className="w-fit bg-green-600 hover:bg-green-500 text-white">
             Update
           </Button>
-          <DeleteAppointmentButtonDialog />
+          <DeleteButtonDialog
+            title="Delete This Appointment Time?"
+            onDelete={() => {}}
+          />
         </div>
       </div>
     </div>
