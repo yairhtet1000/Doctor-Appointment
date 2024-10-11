@@ -48,6 +48,7 @@ const getArchiveDoctors = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+
 const createDoctor = async (req, res) => {
   const { name, email, phone, specialty, isArchive } = req.body;
 

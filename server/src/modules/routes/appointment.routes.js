@@ -4,6 +4,7 @@ const appointmentController = require("../controllers/AppointmentController");
 const appointmentTypeController = require("../controllers/AppointmentTypeController");
 const AppointmentTimeController = require("../controllers/AppointmentTimeController");
 
+//get
 appointmentRotuer.get("/", appointmentController.getAppointments);
 appointmentRotuer.get("/:appointment_id", appointmentController.getAppointment);
 appointmentRotuer.get("/archive", appointmentController.getArchiveAppointments);
@@ -23,7 +24,6 @@ appointmentRotuer.delete(
 );
 
 //appointment type
-
 //get
 appointmentRotuer.get(
   "/types/all",

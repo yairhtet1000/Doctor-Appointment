@@ -19,6 +19,8 @@ userRouter.use(auth);
 //// protected routes
 // patch
 userRouter.patch("/update/:userID", userController.updateUser);
+userRouter.patch("/ban/:adminID", userController.isBanned);
+userRouter.patch("/role/:adminID", userController.adminAccess);
 
 // delete
 userRouter.delete("/delete/:userID", userController.deleteUser);

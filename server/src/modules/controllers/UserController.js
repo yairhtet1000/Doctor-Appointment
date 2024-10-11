@@ -87,6 +87,11 @@ const updateUser = async (req, res) => {
     if (updatedData.email && !isValidEmail(updatedData.email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
+    if (updatedData.password) {
+      updatedData.hashedPassword = await argon2.hash(updatedData.password);
+      delete updatedData.password;
+    }
+
     const user = await User.findByIdAndUpdate(userID, updatedData, {
       new: true,
       runValidators: true,
@@ -96,9 +101,47 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ error: "Patient Not Found." });
     }
 
-    // const showUser = user.select("-hashedPassword");
-
     res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const isBanned = async (req, res) => {
+  const { adminID } = req.params;
+  const { email, isBanned } = req.body;
+
+  const isAdmin = await User.findById(adminID);
+  if (isAdmin.role === "user" && isAdmin.role !== "admin")
+    return res.status(402).json({ error: "Only Admin Can Do This Task." });
+
+  try {
+    const findUser = await User.findOne({ email });
+    if (!findUser) return res.status(404).json({ error: "User Not Found." });
+
+    await findUser.updateOne({ isBanned });
+
+    res.status(200).json({ message: "Successful." });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const adminAccess = async (req, res) => {
+  const { adminID } = req.params;
+  const { email, role } = req.body;
+
+  const isAdmin = await User.findById(adminID);
+  if (isAdmin.role === "user" && isAdmin.role !== "admin")
+    return res.status(402).json({ error: "Only Admin Can Do This Task." });
+
+  try {
+    const findUser = await User.findOne({ email });
+    if (!findUser) return res.status(404).json({ error: "User Not Found." });
+
+    await findUser.updateOne({ role });
+
+    res.status(200).json({ message: "Successful." });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -137,5 +180,7 @@ module.exports = {
   createUser,
   userLogin,
   updateUser,
+  isBanned,
+  adminAccess,
   deleteUser,
 };

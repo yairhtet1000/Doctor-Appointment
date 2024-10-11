@@ -21,7 +21,7 @@ const DoctorSchema = new mongoose.Schema({
   },
   isArchive: {
     type: Boolean,
-    // default: false,
+    default: false,
     required: true,
   },
 });
