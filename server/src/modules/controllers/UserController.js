@@ -63,20 +63,13 @@ const userLogin = async (req, res) => {
     if (!truePassword)
       return res.status(400).json({ error: "Incorrect Password." });
 
-    const accessToken = jsonwebtoken.sign(
-      {
-        _id: getUser.id,
-        name: getUser.name,
-      },
-      process.env.jwt_salt
-    );
+    const accessToken = generateToken(getUser.id, getUser.name);
 
     // const showUser = getUser.select("-hashedPassword");
 
-    res.status(200).json({
+    res.cookie("token", accessToken, { httpOnly: true }).status(200).json({
       message: "Login Successful",
       getUser,
-      accessToken,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -170,6 +163,10 @@ const deleteUser = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+const generateToken = (id, name) => {
+  jsonwebtoken.sign({ id, name }, process.env.jwt_salt);
 };
 
 const isValidEmail = (email) => {
