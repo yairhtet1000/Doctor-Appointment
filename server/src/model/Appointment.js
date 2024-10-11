@@ -8,7 +8,7 @@ const appointmentSchema = new mongoose.Schema({
   },
   patient_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Patient",
+    ref: "User",
     required: true,
   },
   doctor_id: {
@@ -21,12 +21,17 @@ const appointmentSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: Boolean,
+    type: String,
     required: true,
   },
   time: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Appointment_Time",
     required: true,
+  },
+  isArchive: {
+    type: Boolean,
+    default: false,
   },
 });
 

@@ -18,7 +18,7 @@ Content-Type: application/json
 } 
 ###
 //update
-PUT http://localhost:8000/api/hospital/location/update/6700b9a102e527fb72a02810 HTTP/1.1
+PATCH  http://localhost:8000/api/hospital/location/update/6700b9a102e527fb72a02810 HTTP/1.1
 Content-Type: application/json
 
 {

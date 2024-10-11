@@ -2,7 +2,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const auth = (req, res, next) => {
   try {
-    const accessToken = req.headers.authorization.replace("Bearer ", "");
+    const accessToken = req.cookie.token;
 
     const jwtPayload = jsonwebtoken.verify(accessToken, process.env.jwt_salt);
 
