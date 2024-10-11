@@ -22,7 +22,7 @@ hospitalLocationRouter.get(
 );
 
 //update
-hospitalLocationRouter.put(
+hospitalLocationRouter.patch(
   "/update/:location_id",
   hospitalLocationController.updateHospitalLocation
 );

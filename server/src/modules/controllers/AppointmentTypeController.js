@@ -18,6 +18,21 @@ const createAppointmentType = async (req, res) => {
   }
 };
 
+const getAppointmentType = async (req, res) => {
+  const { appointment_type_id } = req.params;
+
+  try {
+    if (validator.isMongoId(appointment_type_id)) {
+      const appointmentType = await AppointmentType.findById(
+        appointment_type_id
+      );
+      res.status(200).json(appointmentType);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getAppointmentTypes = async (req, res) => {
   try {
     const appointment_type = await AppointmentType.find();
@@ -25,6 +40,26 @@ const getAppointmentTypes = async (req, res) => {
     res.status(200).json(appointment_type);
   } catch (error) {
     res.status(404).json({ message: error.message });
+  }
+};
+
+const updateAppointmentType = async (req, res) => {
+  const { name } = req.body;
+  const { appointment_type_id } = req.params;
+
+  try {
+    const update_appointment_type = await AppointmentType.findByIdAndUpdate(
+      appointment_type_id,
+      {
+        typeName: name,
+      }
+    );
+    if (!update_appointment_type) {
+      res.status(404).json({ error: "appointment type not found" });
+    }
+    res.status(200).json({ message: "updated successfully" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -53,5 +88,7 @@ const deleteAppointmentType = async (req, res) => {
 module.exports = {
   createAppointmentType,
   getAppointmentTypes,
+  getAppointmentType,
+  updateAppointmentType,
   deleteAppointmentType,
 };

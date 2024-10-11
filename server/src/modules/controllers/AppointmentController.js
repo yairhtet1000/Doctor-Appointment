@@ -22,10 +22,11 @@ const createAppointment = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find()
+    const appointments = await Appointment.find({ isArchive: false })
       .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
-      .populate("patient_id", "name email");
+      .populate("patient_id", "name email")
+      .populate("time", "time");
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -37,7 +38,11 @@ const getAppointment = async (req, res) => {
 
   try {
     if (validator.isMongoId(appointment_id.toString())) {
-      const appointment = await Appointment.findById(appointment_id);
+      const appointment = await Appointment.findById(appointment_id)
+        .populate("appointment_type", "typeName")
+        .populate("doctor_id", "name email")
+        .populate("patient_id", "name email")
+        .populate("time", "time");
       res.status(200).json(appointment);
     }
   } catch (error) {
@@ -45,9 +50,29 @@ const getAppointment = async (req, res) => {
   }
 };
 
+const getArchiveAppointments = async (req, res) => {
+  try {
+    const archiveAppointments = await Appointment.find({ isArchive: true })
+      .populate("appointment_type", "typeName")
+      .populate("doctor_id", "name email")
+      .populate("patient_id", "name email")
+      .populate("time", "time");
+    res.status(200).json(archiveAppointments);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const updateAppointment = async (req, res) => {
-  const { appointment_type, patient_id, doctor_id, date, status, time } =
-    req.body;
+  const {
+    appointment_type,
+    patient_id,
+    doctor_id,
+    date,
+    status,
+    time,
+    isArchive,
+  } = req.body;
   const { appointment_id } = req.params;
 
   try {
@@ -60,6 +85,7 @@ const updateAppointment = async (req, res) => {
         date,
         status,
         time,
+        isArchive,
       }
     );
     if (!update_appointment) {
@@ -94,7 +120,8 @@ const deleteAppointments = async (req, res) => {
 module.exports = {
   createAppointment,
   getAppointments,
-  deleteAppointments,
+  getArchiveAppointments,
   getAppointment,
+  deleteAppointments,
   updateAppointment,
 };
