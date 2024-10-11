@@ -18,9 +18,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  banned: {
+  role: {
+    type: String,
+    default: "user",
+    required: true,
+  },
+  isBanned: {
     type: Boolean,
-    // default: false,
+    default: false,
     required: true,
   },
 });

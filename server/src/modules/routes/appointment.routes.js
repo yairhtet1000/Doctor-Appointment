@@ -2,8 +2,8 @@ const { Router } = require("express");
 const appointmentRotuer = Router();
 const appointmentController = require("../controllers/AppointmentController");
 const appointmentTypeController = require("../controllers/AppointmentTypeController");
-const AppointmentType = require("../../model/AppointmentType");
 
+//get
 appointmentRotuer.get("/", appointmentController.getAppointments);
 appointmentRotuer.get("/:appointment_id", appointmentController.getAppointment);
 
@@ -23,7 +23,6 @@ appointmentRotuer.delete(
 );
 
 //appointment type
-
 //get
 appointmentRotuer.get(
   "/types/all",
