@@ -95,6 +95,12 @@ const adminSideLayout = ({ children }: Prop) => {
       to: "/adminSide/time",
       icon: <Clock10 />,
     },
+    {
+      id: 9,
+      name: "Specialty",
+      to: "/adminSide/specialty",
+      icon: <Clock10 />,
+    },
   ];
 
   return (
