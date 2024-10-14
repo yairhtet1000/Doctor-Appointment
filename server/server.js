@@ -13,6 +13,7 @@ const userRouter = require("./src/modules/routes/user.routes");
 const appointmentRouter = require("./src/modules/routes/appointment.routes");
 const specialtiesRouter = require("./src/modules/routes/specialties.routes");
 const hospitalLocationRouter = require("./src/modules/routes/hospital.routes");
+const doctorAppointmentRotuer = require("./src/modules/routes/doctorAppointment.routes");
 
 app.use(express.json());
 // app.use(cookieParser());
@@ -23,6 +24,7 @@ app.use("/api/users", userRouter);
 app.use("/api/appointment", appointmentRouter);
 app.use("/api/specialties", specialtiesRouter);
 app.use("/api/hospital/location", hospitalLocationRouter);
+app.use("/api/doctorAppointments", doctorAppointmentRotuer);
 
 mongoose
   .connect(db_uri)
