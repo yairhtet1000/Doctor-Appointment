@@ -17,10 +17,15 @@ export const getSpecialties = createAsyncThunk(
       method: "GET",
     });
     const dataFromServer = await response.json();
-    const {} = dataFromServer;
+    const { specialties, error } = dataFromServer;
+    error ? OnError && OnError(error) : OnSuccess && OnSuccess();
+    console.log(specialties);
+    specialties.length > 0
+      ? thunkApi.dispatch(setSpecialties(specialties))
+      : null;
   }
 );
-export const creeateSpecialty = createAsyncThunk(
+export const createSpecialty = createAsyncThunk(
   "SpecialtySlice/getSpecialties",
   async (payload: BaseOption, thunkApi) => {
     thunkApi.dispatch(setLoading(true));
@@ -34,9 +39,9 @@ export const creeateSpecialty = createAsyncThunk(
       }
     );
     const dataFromServer = await response.json();
-    const { specialties, error } = dataFromServer;
+    const { specialty, error } = dataFromServer;
     error ? OnError && OnError(error) : OnSuccess && OnSuccess();
-    specialties ? thunkApi.dispatch(addSpecialty(specialties)) : null;
+    specialty ? thunkApi.dispatch(addSpecialty(specialty)) : null;
     thunkApi.dispatch(setLoading(false));
   }
 );

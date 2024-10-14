@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { NewSpecialty } from "@/types/specialty";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { creeateSpecialty } from "@/store/Slices/SpecialtySlice";
+import { createSpecialty } from "@/store/Slices/SpecialtySlice";
 import { Icons } from "./loadingicon";
 
 const AddNewSpecialty = () => {
@@ -25,7 +25,7 @@ const AddNewSpecialty = () => {
       return;
     }
     dispatch(
-      creeateSpecialty({
+      createSpecialty({
         ...newSpecialty,
         OnSuccess: () => {
           console.log("success");
