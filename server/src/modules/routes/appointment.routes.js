@@ -4,10 +4,12 @@ const appointmentController = require("../controllers/AppointmentController");
 const appointmentTypeController = require("../controllers/AppointmentTypeController");
 const AppointmentTimeController = require("../controllers/AppointmentTimeController");
 
+// appointment schema
 //get
 appointmentRotuer.get("/", appointmentController.getAppointments);
 appointmentRotuer.get("/:appointment_id", appointmentController.getAppointment);
 appointmentRotuer.get("/archive", appointmentController.getArchiveAppointments);
+
 //post
 appointmentRotuer.post("/create", appointmentController.createAppointment);
 
@@ -23,7 +25,7 @@ appointmentRotuer.delete(
   appointmentController.deleteAppointments
 );
 
-//appointment type
+//appointment type schema
 //get
 appointmentRotuer.get(
   "/types/all",
@@ -51,7 +53,7 @@ appointmentRotuer.delete(
   appointmentTypeController.deleteAppointmentType
 );
 
-//time
+// appointment time schema
 //get all time
 appointmentRotuer.get(
   "/time/all",

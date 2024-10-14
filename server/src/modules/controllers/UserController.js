@@ -5,7 +5,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-hashedPassword");
+    const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -19,7 +19,7 @@ const getUserByID = async (req, res) => {
     if (!validator.isMongoId(userID.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
-    const user = await User.findById(userID).select("-hashedPassword");
+    const user = await User.findById(userID);
 
     if (!user) return res.status(404).json({ error: "User Not Found." });
 
@@ -64,8 +64,6 @@ const userLogin = async (req, res) => {
       return res.status(400).json({ error: "Incorrect Password." });
 
     const accessToken = generateToken(getUser.id, getUser.name);
-
-    // const showUser = getUser.select("-hashedPassword");
 
     res.cookie("token", accessToken, { httpOnly: true }).status(200).json({
       message: "Login Successful",
