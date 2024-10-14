@@ -30,21 +30,21 @@ const getUserByID = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { name, email, phone, password, banned } = req.body;
+  const userData = req.body;
 
   try {
-    if (!isValidEmail(email))
+    if (!isValidEmail(userData.email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const usedEmail = await User.findOne({ email });
-    const hashedPassword = await argon2.hash(password);
+    const usedEmail = await User.findOne({ email: userData.email });
+    userData.hashedPassword = await argon2.hash(userData.password);
 
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    const user = new User({ name, email, phone, hashedPassword, banned });
+    const user = new User(userData);
     await user.save();
-    res.status(200).json(user);
+    res.status(200).json({ message: "Register Successful.", user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -99,7 +99,7 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ error: "Patient Not Found." });
     }
 
-    res.status(200).json(user);
+    res.status(200).json({ message: "Update Successful", user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -119,7 +119,7 @@ const isBanned = async (req, res) => {
 
     await findUser.updateOne({ isBanned });
 
-    res.status(200).json({ message: "Successful." });
+    res.status(200).json({ message: "Successful.", findUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -139,7 +139,7 @@ const adminAccess = async (req, res) => {
 
     await findUser.updateOne({ role });
 
-    res.status(200).json({ message: "Successful." });
+    res.status(200).json({ message: "Successful.", findUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

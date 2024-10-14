@@ -2,33 +2,17 @@ const Appointment = require("../../model/Appointment");
 const validator = require("validator");
 
 const createAppointment = async (req, res) => {
-  const { appointment_type, patient_id, doctor_id, date, phone, time } =
-    req.body;
+  const appointmentData = req.body;
 
   try {
-    const appointment = new Appointment({
-      appointment_type,
-      patient_id,
-      doctor_id,
-      date,
-      phone,
-      time,
-    });
+    const appointment = new Appointment(appointmentData);
 
     await appointment.save();
 
-    const createdAppointment = await Appointment.findById(appointment._id)
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("patient_id", "name email")
-      .populate("time", "time");
-
-    res
-      .status(200)
-      .json({
-        message: "Appointment created successfully",
-        createdAppointment,
-      });
+    res.status(200).json({
+      message: "Appointment created successfully",
+      appointment,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -39,8 +23,9 @@ const getAppointments = async (req, res) => {
     const appointments = await Appointment.find({ isArchive: false })
       .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
-      .populate("patient_id", "name email")
+      .populate("patient_id", "name email phone")
       .populate("time", "time");
+
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -57,6 +42,7 @@ const getAppointment = async (req, res) => {
         .populate("doctor_id", "name email")
         .populate("patient_id", "name email")
         .populate("time", "time");
+
       res.status(200).json(appointment);
     }
   } catch (error) {
@@ -71,6 +57,7 @@ const getArchiveAppointments = async (req, res) => {
       .populate("doctor_id", "name email")
       .populate("patient_id", "name email")
       .populate("time", "time");
+
     res.status(200).json(archiveAppointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -78,30 +65,19 @@ const getArchiveAppointments = async (req, res) => {
 };
 
 const updateAppointment = async (req, res) => {
-  const {
-    appointment_type,
-    patient_id,
-    doctor_id,
-    date,
-    phone,
-    time,
-    isArchive,
-  } = req.body;
+  const updatedData = req.body;
   const { appointment_id } = req.params;
 
   try {
     const update_appointment = await Appointment.findByIdAndUpdate(
       appointment_id,
+      updatedData,
       {
-        appointment_type,
-        patient_id,
-        doctor_id,
-        date,
-        phone,
-        time,
-        isArchive,
+        new: true,
+        runValidators: true,
       }
     );
+
     if (!update_appointment) {
       res.status(404).json({ error: "appointment not found" });
     }

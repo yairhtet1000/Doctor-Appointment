@@ -5,10 +5,13 @@ const createAppointmentType = async (req, res) => {
   const { name } = req.body;
   try {
     const appointmentExist = await AppointmentType.findOne({ typeName: name });
+
     if (appointmentExist)
       return res.status(409).json({ error: "type already exist" });
+
     const appointment_type = new AppointmentType({ typeName: name });
     await appointment_type.save();
+
     res.status(200).json({
       message: "appointment type created successfully",
       appointment_type,
@@ -26,6 +29,7 @@ const getAppointmentType = async (req, res) => {
       const appointmentType = await AppointmentType.findById(
         appointment_type_id
       );
+
       res.status(200).json(appointmentType);
     }
   } catch (error) {
@@ -54,12 +58,15 @@ const updateAppointmentType = async (req, res) => {
         typeName: name,
       }
     );
+
     if (!update_appointment_type) {
       res.status(404).json({ error: "appointment type not found" });
     }
+
     const updatedAppointmentType = await AppointmentType.findById(
       appointment_type_id
     );
+
     res
       .status(200)
       .json({ message: "updated successfully", updatedAppointmentType });
@@ -76,6 +83,7 @@ const deleteAppointmentType = async (req, res) => {
       const get_appointment_type = await AppointmentType.findOne({
         _id: appointment_type_id,
       });
+
       if (get_appointment_type) {
         await AppointmentType.deleteOne({ _id: appointment_type_id });
         res.status(200).json({ message: "Deleted Successfully." });

@@ -7,6 +7,7 @@ const createHospitalLocation = async (req, res) => {
   try {
     const hospitalLocation = new HospitalLocation({ location, city, address });
     await hospitalLocation.save();
+
     res.status(200).json({
       message: "Hospital Location created successfully",
       hospitalLocation,
@@ -48,6 +49,10 @@ const updateHospitalLocation = async (req, res) => {
         location,
         city,
         address,
+      },
+      {
+        new: true,
+        runValidators: true,
       }
     );
     if (!update_location) {

@@ -2,28 +2,15 @@ const DoctorAppointment = require("../../model/DoctorAppointment");
 const validator = require("validator");
 
 const createDoctorAppointment = async (req, res) => {
-  const { appointment_type, doctor_id, date, time } = req.body;
+  const docAppointmentData = req.body;
 
   try {
-    const doctorAppointment = new DoctorAppointment({
-      appointment_type,
-      doctor_id,
-      date,
-      time,
-    });
-
+    const doctorAppointment = new DoctorAppointment(docAppointmentData);
     await doctorAppointment.save();
-
-    const createdDoctorAppointment = await DoctorAppointment.findById(
-      doctorAppointment._id
-    )
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("time", "time");
 
     res.status(200).json({
       message: "Appointment created successfully",
-      createdDoctorAppointment,
+      doctorAppointment,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -38,6 +25,7 @@ const getDoctorAppointments = async (req, res) => {
       .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
       .populate("time", "time");
+
     res.status(200).json(doctorAppointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -55,6 +43,7 @@ const getDoctorAppointment = async (req, res) => {
         .populate("appointment_type", "typeName")
         .populate("doctor_id", "name email")
         .populate("time", "time");
+
       res.status(200).json(doctorAppointment);
     }
   } catch (error) {
@@ -70,6 +59,7 @@ const getArchiveDoctorAppointments = async (req, res) => {
       .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
       .populate("time", "time");
+
     res.status(200).json(archiveDoctorAppointments);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -77,22 +67,19 @@ const getArchiveDoctorAppointments = async (req, res) => {
 };
 
 const updateDoctorAppointment = async (req, res) => {
-  const { appointment_type, doctor_id, date, status, time, isArchive } =
-    req.body;
+  const updatedData = req.body;
   const { doctor_appointment_id } = req.params;
 
   try {
     const update_doctor_appointment = await DoctorAppointment.findByIdAndUpdate(
       doctor_appointment_id,
+      updatedData,
       {
-        appointment_type,
-        doctor_id,
-        date,
-        status,
-        time,
-        isArchive,
+        new: true,
+        runValidators: true,
       }
     );
+
     if (!update_doctor_appointment) {
       res.status(404).json({ error: "appointment not found" });
     }

@@ -7,7 +7,10 @@ const createSpecialties = async (req, res) => {
   try {
     const specialty = new Specialties({ specializedName: name });
     await specialty.save();
-    res.status(200).json({ message: "Specialty created successfully" });
+
+    res
+      .status(200)
+      .json({ message: "Specialty created successfully", specialty });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -28,6 +31,7 @@ const deleteSpecialties = async (req, res) => {
   try {
     if (validator.isMongoId(specialty_id.toString())) {
       const getSpecialty = await Specialties.findOne({ _id: specialty_id });
+
       if (getSpecialty) {
         await Specialties.deleteOne({ _id: specialty_id });
         res.status(200).json({ message: "Deleted Successfully." });

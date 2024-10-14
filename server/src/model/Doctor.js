@@ -51,5 +51,12 @@ const DoctorSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+DoctorSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    delete ret.__v;
+    return ret;
+  },
+});
+
 const Doctor = mongoose.model("Doctor", DoctorSchema);
 module.exports = Doctor;
