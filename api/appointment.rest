@@ -15,7 +15,7 @@ Content-Type: application/json
     "patient_id":"67016f6829b8c6514547915c",
     "doctor_id":"66ffd2b755f261b89f676fea",
     "date":"2024-09-20T15:00:00Z",
-    "status":false,
+    "phone":"091234353",
     "time":"6703c1423cf17d6d0767c9fe"
 }
 
@@ -32,9 +32,11 @@ Content-Type: application/json
 
 ###
 //delete appointment
-DELETE http://localhost:8000/api/appointment/6703c4b6c21d4bbf903a20b9
+DELETE http://localhost:8000/api/appointment/6703cc1869435a641defd20f
 
-###
+
+
+#####################################################################################################
 //Appointment type ______________________________________________________________________________________
 
 //get
@@ -68,7 +70,9 @@ Content-Type: application/json
 //delete
 DELETE http://localhost:8000/api/appointment/type/delete/6700b3b2999d124f090c0469 
 
-###
+
+
+##########################################################################################################
 //Appointment time ______________________________________________________________________________________
 
 GET http://localhost:8000/api/appointment/time/all
@@ -98,3 +102,5 @@ Content-Type: application/json
 ###
 //delete
 DELETE http://localhost:8000/api/appointment/time/delete/6703c1423cf17d6d0767c9fe HTTP/1.1
+
+##############################################################################################

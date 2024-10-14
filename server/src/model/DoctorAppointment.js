@@ -1,15 +1,10 @@
 const mongoose = require("mongoose");
 
-const appointmentSchema = new mongoose.Schema({
+const doctorAppointmentSchema = new mongoose.Schema({
   appointment_type: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Appointment_Type",
     require: true,
-  },
-  patient_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
   },
   doctor_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -20,9 +15,10 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  phone: {
-    type: String,
+  status: {
+    type: Boolean,
     required: true,
+    default: false,
   },
   time: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,5 +31,8 @@ const appointmentSchema = new mongoose.Schema({
   },
 });
 
-const Appointment = mongoose.model("Appointment", appointmentSchema);
-module.exports = Appointment;
+const doctorAppointment = mongoose.model(
+  "Doctor_Appointment",
+  doctorAppointmentSchema
+);
+module.exports = doctorAppointment;

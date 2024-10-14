@@ -57,7 +57,12 @@ const updateAppointmentType = async (req, res) => {
     if (!update_appointment_type) {
       res.status(404).json({ error: "appointment type not found" });
     }
-    res.status(200).json({ message: "updated successfully" });
+    const updatedAppointmentType = await AppointmentType.findById(
+      appointment_type_id
+    );
+    res
+      .status(200)
+      .json({ message: "updated successfully", updatedAppointmentType });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

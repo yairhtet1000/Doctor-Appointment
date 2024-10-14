@@ -57,7 +57,14 @@ const updateAppointmentTime = async (req, res) => {
     if (!update_appointment_time) {
       res.status(404).json({ error: "appointment time not found" });
     }
-    res.status(200).json({ message: "updated successfully" });
+
+    const updatedAppointmentTime = await AppointmentTime.findById(
+      appointment_time_id
+    );
+
+    res
+      .status(200)
+      .json({ message: "updated successfully", updatedAppointmentTime });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
