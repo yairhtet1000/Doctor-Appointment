@@ -34,8 +34,34 @@ const appointmentSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+  patient_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  { timestamps: true }
+  doctor_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Doctor",
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
+  time: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Appointment_Time",
+    required: true,
+  },
+  isArchive: {
+    type: Boolean,
+    default: false,
+  },
+},  { timestamps: true }
 );
 
 const Appointment = mongoose.model("Appointment", appointmentSchema);

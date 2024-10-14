@@ -2,7 +2,7 @@ const Appointment = require("../../model/Appointment");
 const validator = require("validator");
 
 const createAppointment = async (req, res) => {
-  const { appointment_type, patient_id, doctor_id, date, status, time } =
+  const { appointment_type, patient_id, doctor_id, date, phone, time } =
     req.body;
 
   try {
@@ -11,13 +11,24 @@ const createAppointment = async (req, res) => {
       patient_id,
       doctor_id,
       date,
-      status,
+      phone,
       time,
     });
 
     await appointment.save();
 
-    res.status(200).json({ message: "Appointment created successfully" });
+    const createdAppointment = await Appointment.findById(appointment._id)
+      .populate("appointment_type", "typeName")
+      .populate("doctor_id", "name email")
+      .populate("patient_id", "name email")
+      .populate("time", "time");
+
+    res
+      .status(200)
+      .json({
+        message: "Appointment created successfully",
+        createdAppointment,
+      });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -41,7 +52,6 @@ const getAppointment = async (req, res) => {
 
   try {
     if (validator.isMongoId(appointment_id.toString())) {
-
       const appointment = await Appointment.findById(appointment_id)
         .populate("appointment_type", "typeName")
         .populate("doctor_id", "name email")
@@ -68,13 +78,12 @@ const getArchiveAppointments = async (req, res) => {
 };
 
 const updateAppointment = async (req, res) => {
-
   const {
     appointment_type,
     patient_id,
     doctor_id,
     date,
-    status,
+    phone,
     time,
     isArchive,
   } = req.body;
@@ -88,7 +97,7 @@ const updateAppointment = async (req, res) => {
         patient_id,
         doctor_id,
         date,
-        status,
+        phone,
         time,
         isArchive,
       }
@@ -97,7 +106,11 @@ const updateAppointment = async (req, res) => {
       res.status(404).json({ error: "appointment not found" });
     }
 
-    res.status(200).json({ message: "updated successfully" });
+    const updatedAppointment = await Appointment.findById(appointment_id);
+
+    res
+      .status(200)
+      .json({ message: "updated successfully", updatedAppointment });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

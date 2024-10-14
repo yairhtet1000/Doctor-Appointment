@@ -7,7 +7,10 @@ const createHospitalLocation = async (req, res) => {
   try {
     const hospitalLocation = new HospitalLocation({ location, city, address });
     await hospitalLocation.save();
-    res.status(200).json({ message: "Hospital Location created successfully" });
+    res.status(200).json({
+      message: "Hospital Location created successfully",
+      hospitalLocation,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -50,7 +53,10 @@ const updateHospitalLocation = async (req, res) => {
     if (!update_location) {
       res.status(404).json({ error: "hospital location not found" });
     }
-    res.status(200).json({ message: "updated location successfully" });
+    const updatedLocation = await HospitalLocation.findById(location_id);
+    res
+      .status(200)
+      .json({ message: "updated location successfully", updatedLocation });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
