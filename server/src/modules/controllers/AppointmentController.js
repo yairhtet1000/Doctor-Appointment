@@ -40,7 +40,7 @@ const getAppointment = async (req, res) => {
       const appointment = await Appointment.findById(appointment_id)
         .populate("appointment_type", "typeName")
         .populate("doctor_id", "name email")
-        .populate("patient_id", "name email")
+        .populate("patient_id", "name email phone")
         .populate("time", "time");
 
       res.status(200).json(appointment);
@@ -55,7 +55,7 @@ const getArchiveAppointments = async (req, res) => {
     const archiveAppointments = await Appointment.find({ isArchive: true })
       .populate("appointment_type", "typeName")
       .populate("doctor_id", "name email")
-      .populate("patient_id", "name email")
+      .populate("patient_id", "name email phone")
       .populate("time", "time");
 
     res.status(200).json(archiveAppointments);
