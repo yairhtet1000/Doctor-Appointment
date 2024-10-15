@@ -12,8 +12,8 @@ specialtiesRouter.post("/create", SpecialtiesController.createSpecialties);
 
 //update
 specialtiesRouter.patch(
-  "/update/:speciality_id",
-  SpecialtiesController.updateSpeciality
+  "/update/:specialty_id",
+  SpecialtiesController.updateSpecialty
 );
 
 // delete

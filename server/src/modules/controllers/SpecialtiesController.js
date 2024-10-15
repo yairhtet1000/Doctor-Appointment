@@ -26,31 +26,29 @@ const getSpecialties = async (req, res) => {
 };
 
 const getSpecialty = async (req, res) => {
-  const { speciality_id } = req.params;
+  const { specialty_id } = req.params;
   try {
-    const specialty = await Specialties.findById(speciality_id);
+    const specialty = await Specialties.findById(specialty_id);
     res.status(200).json(specialty);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
-const updateSpeciality = async (req, res) => {
+const updateSpecialty = async (req, res) => {
   const { name } = req.body;
-  const { speciality_id } = req.params;
+  const { specialty_id } = req.params;
 
   try {
-    const speciality = await Specialties.findByIdAndUpdate(speciality_id, {
+    const specialty = await Specialties.findByIdAndUpdate(specialty_id, {
       name,
     });
 
-    if (!speciality) {
-      res.status(404).json({ error: "speciality not found" });
+    if (!specialty) {
+      res.status(404).json({ error: "specialty not found" });
     }
-    const updatedSpeciality = await Specialties.findById(speciality_id);
-    res
-      .status(200)
-      .json({ message: "updated successfully", updatedSpeciality });
+    const updatedSpecialty = await Specialties.findById(specialty_id);
+    res.status(200).json({ message: "updated successfully", updatedSpecialty });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -81,6 +79,6 @@ module.exports = {
   createSpecialties,
   getSpecialties,
   getSpecialty,
-  updateSpeciality,
+  updateSpecialty,
   deleteSpecialties,
 };
