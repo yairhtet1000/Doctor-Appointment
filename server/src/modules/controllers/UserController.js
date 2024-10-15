@@ -38,6 +38,7 @@ const createUser = async (req, res) => {
 
     const usedEmail = await User.findOne({ email: userData.email });
     userData.hashedPassword = await argon2.hash(userData.password);
+    delete userData.password;
 
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
