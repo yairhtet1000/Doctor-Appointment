@@ -2,10 +2,10 @@ const Specialties = require("../../model/Specialties");
 const validator = require("validator");
 
 const createSpecialties = async (req, res) => {
-  const { name } = req.body;
+  const name = req.body;
 
   try {
-    const specialty = new Specialties({ specializedName: name });
+    const specialty = new Specialties(name);
     await specialty.save();
 
     res

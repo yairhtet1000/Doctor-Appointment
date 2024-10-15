@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const specialtiesSchema = new mongoose.Schema(
   {
-    specializedName: {
+    name: {
       type: String,
       required: true,
     },
