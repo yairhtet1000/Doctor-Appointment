@@ -2,14 +2,26 @@
 GET http://localhost:8000/api/specialties/
 
 ###
+//get one
+GET http://localhost:8000/api/specialties/670dfaae257a7badc12e696f
+
+###
 //create specialty
 POST http://localhost:8000/api/specialties/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"Surgery"
+    "name":"Test1"
+}
+###
+//update 
+PATCH  http://localhost:8000/api/specialties/update/670dfaae257a7badc12e696f
+Content-Type: application/json
+
+{
+    "name":"Test1_update"
 }
 
 ###
 //delete specialty
-DELETE http://localhost:8000/api/specialties/{id} HTTP/1.1
+DELETE http://localhost:8000/api/specialties/670dfdd66a8faaf712530ced HTTP/1.1
