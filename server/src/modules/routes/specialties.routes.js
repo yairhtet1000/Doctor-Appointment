@@ -5,7 +5,7 @@ const specialtiesRouter = Router();
 
 // get
 specialtiesRouter.get("/", SpecialtiesController.getSpecialties);
-specialtiesRouter.get("/:speciality_id", SpecialtiesController.getSpecialty);
+specialtiesRouter.get("/:specialty_id", SpecialtiesController.getSpecialty);
 
 // post
 specialtiesRouter.post("/create", SpecialtiesController.createSpecialties);

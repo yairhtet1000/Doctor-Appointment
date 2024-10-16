@@ -21,10 +21,7 @@ const getDoctorAppointments = async (req, res) => {
   try {
     const doctorAppointments = await DoctorAppointment.find({
       isArchive: false,
-    })
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("time", "time");
+    });
 
     res.status(200).json(doctorAppointments);
   } catch (error) {
@@ -39,10 +36,7 @@ const getDoctorAppointment = async (req, res) => {
     if (validator.isMongoId(doctor_appointment_id.toString())) {
       const doctorAppointment = await DoctorAppointment.findById(
         doctor_appointment_id
-      )
-        .populate("appointment_type", "typeName")
-        .populate("doctor_id", "name email")
-        .populate("time", "time");
+      );
 
       res.status(200).json(doctorAppointment);
     }
@@ -55,10 +49,7 @@ const getArchiveDoctorAppointments = async (req, res) => {
   try {
     const archiveDoctorAppointments = await DoctorAppointment.find({
       isArchive: true,
-    })
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("time", "time");
+    });
 
     res.status(200).json(archiveDoctorAppointments);
   } catch (error) {

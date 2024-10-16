@@ -20,11 +20,7 @@ const createAppointment = async (req, res) => {
 
 const getAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.find({ isArchive: false })
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("patient_id", "name email phone")
-      .populate("time", "time");
+    const appointments = await Appointment.find({ isArchive: false });
 
     res.status(200).json(appointments);
   } catch (error) {
@@ -37,11 +33,7 @@ const getAppointment = async (req, res) => {
 
   try {
     if (validator.isMongoId(appointment_id.toString())) {
-      const appointment = await Appointment.findById(appointment_id)
-        .populate("appointment_type", "typeName")
-        .populate("doctor_id", "name email")
-        .populate("patient_id", "name email phone")
-        .populate("time", "time");
+      const appointment = await Appointment.findById(appointment_id);
 
       res.status(200).json(appointment);
     }
@@ -52,11 +44,7 @@ const getAppointment = async (req, res) => {
 
 const getArchiveAppointments = async (req, res) => {
   try {
-    const archiveAppointments = await Appointment.find({ isArchive: true })
-      .populate("appointment_type", "typeName")
-      .populate("doctor_id", "name email")
-      .populate("patient_id", "name email phone")
-      .populate("time", "time");
+    const archiveAppointments = await Appointment.find({ isArchive: true });
 
     res.status(200).json(archiveAppointments);
   } catch (error) {
