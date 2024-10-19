@@ -2,10 +2,10 @@ const HospitalLocation = require("../../model/HospitalLocation");
 const validator = require("validator");
 
 const createHospitalLocation = async (req, res) => {
-  const { location, city, address } = req.body;
+  const { city, address } = req.body;
 
   try {
-    const hospitalLocation = new HospitalLocation({ location, city, address });
+    const hospitalLocation = new HospitalLocation({ city, address });
     await hospitalLocation.save();
 
     res.status(200).json({
@@ -39,14 +39,13 @@ const getHospitalLocation = async (req, res) => {
 };
 
 const updateHospitalLocation = async (req, res) => {
-  const { location, city, address } = req.body;
+  const { city, address } = req.body;
   const { location_id } = req.params;
 
   try {
     const update_location = await HospitalLocation.findByIdAndUpdate(
       location_id,
       {
-        location,
         city,
         address,
       },

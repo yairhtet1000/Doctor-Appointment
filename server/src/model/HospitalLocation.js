@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const hospitalLocationSchema = new mongoose.Schema(
   {
-    location: {
-      type: String,
-      required: true,
-    },
     city: {
       type: String,
       required: true,
