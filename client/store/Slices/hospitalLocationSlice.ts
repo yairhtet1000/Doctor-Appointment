@@ -21,8 +21,9 @@ export const getHospitalLocatons = createAsyncThunk(
       { method: "GET" }
     );
     const dataFromServer = await response.json();
+    const { hospitalLocation } = dataFromServer;
     if (response.ok) {
-      thunkApi.dispatch(setHospitalLocations(dataFromServer));
+      thunkApi.dispatch(setHospitalLocations(hospitalLocation));
     } else {
       throw new Error(dataFromServer.error);
     }

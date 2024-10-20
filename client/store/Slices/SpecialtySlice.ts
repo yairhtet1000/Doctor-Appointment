@@ -16,10 +16,11 @@ export const getSpecialties = createAsyncThunk(
       method: "GET",
     });
     const dataFromServer = await response.json();
+    const { specialties, error } = dataFromServer;
     if (response.ok) {
-      thunkApi.dispatch(setSpecialties(dataFromServer));
+      thunkApi.dispatch(setSpecialties(specialties));
     } else {
-      throw new Error(dataFromServer.error);
+      throw new Error(error);
     }
   }
 );

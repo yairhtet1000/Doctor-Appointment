@@ -19,8 +19,9 @@ export const GetDoctors = createAsyncThunk(
       }
     );
     const dataFromServer = await response.json();
+    const { doctors } = dataFromServer;
     if (response.ok) {
-      thunkApi.dispatch(setDoctors(dataFromServer));
+      thunkApi.dispatch(setDoctors(doctors));
     } else {
       throw new Error(dataFromServer.error);
     }
