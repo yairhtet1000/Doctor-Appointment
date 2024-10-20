@@ -3,14 +3,11 @@ const validator = require("validator");
 
 const getDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find({ isArchive: false })
-      .populate("specialty", "specializedName")
-      .populate("hospitalLocation", "city address")
-      .populate("timeTable", "time");
+    const doctors = await Doctor.find({ isArchive: false });
 
     if (!doctors) return res.status(404).json({ error: "There Is No Doctor." });
 
-    res.status(200).json(doctors);
+    res.status(200).json({ doctors });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -20,14 +17,11 @@ const getDoctorByID = async (req, res) => {
   const { doctorID } = req.params;
 
   try {
-    const doctor = await Doctor.findById(doctorID).populate(
-      "specialty",
-      "specializedName"
-    );
+    const doctor = await Doctor.findById(doctorID);
 
     if (!doctor) return res.status(404).json({ error: "Doctor Not Found." });
 
-    res.status(200).json(doctor);
+    res.status(200).json({ doctor });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -35,15 +29,12 @@ const getDoctorByID = async (req, res) => {
 
 const getArchiveDoctors = async (req, res) => {
   try {
-    const archiveDoctors = await Doctor.find({ isArchive: true }).populate(
-      "specialty",
-      "specializedName"
-    );
+    const archiveDoctors = await Doctor.find({ isArchive: true });
 
     if (!archiveDoctors)
       return res.status(404).json({ error: "There Is No Doctor." });
 
-    res.status(200).json(archiveDoctors);
+    res.status(200).json({ archiveDoctors });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -63,7 +54,7 @@ const createDoctor = async (req, res) => {
 
     const doctor = new Doctor(docInfo);
     await doctor.save();
-    res.status(200).json(doctor);
+    res.status(200).json({ message: "Doctor Created Successfully.", doctor });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -92,7 +83,9 @@ const updateDoctor = async (req, res) => {
     if (!updatedData)
       return res.status(404).json({ error: "Doctor Not Found." });
 
-    res.status(200).json({ updatedData });
+    res
+      .status(200)
+      .json({ message: "Doctor Updated Successfully.", updatedData });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -129,7 +122,9 @@ const archiveDoctor = async (req, res) => {
     if (!updatedData)
       return res.status(404).json({ error: "Doctor Not Found." });
 
-    res.status(200).json(updatedData);
+    res
+      .status(200)
+      .json({ message: "Doctor Archived Successfully.", updatedData });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

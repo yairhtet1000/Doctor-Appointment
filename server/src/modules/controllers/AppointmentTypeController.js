@@ -30,7 +30,7 @@ const getAppointmentType = async (req, res) => {
         appointment_type_id
       );
 
-      res.status(200).json(appointmentType);
+      res.status(200).json({ appointmentType });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -41,7 +41,7 @@ const getAppointmentTypes = async (req, res) => {
   try {
     const appointment_type = await AppointmentType.find();
 
-    res.status(200).json(appointment_type);
+    res.status(200).json({ appointment_type });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

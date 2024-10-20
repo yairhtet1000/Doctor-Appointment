@@ -20,7 +20,7 @@ const createHospitalLocation = async (req, res) => {
 const getHospitalLocations = async (req, res) => {
   try {
     const hospitalLocation = await HospitalLocation.find();
-    res.status(200).json(hospitalLocation);
+    res.status(200).json({ hospitalLocation });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -31,7 +31,7 @@ const getHospitalLocation = async (req, res) => {
   try {
     if (validator.isMongoId(location_id.toString())) {
       const location = await HospitalLocation.findById(location_id);
-      res.status(200).json(location);
+      res.status(200).json({ location });
     }
   } catch (error) {
     res.status(404).json({ message: error.message });

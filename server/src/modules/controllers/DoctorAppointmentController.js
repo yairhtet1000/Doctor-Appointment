@@ -23,7 +23,7 @@ const getDoctorAppointments = async (req, res) => {
       isArchive: false,
     });
 
-    res.status(200).json(doctorAppointments);
+    res.status(200).json({ doctorAppointments });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -38,7 +38,7 @@ const getDoctorAppointment = async (req, res) => {
         doctor_appointment_id
       );
 
-      res.status(200).json(doctorAppointment);
+      res.status(200).json({ doctorAppointment });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -51,7 +51,7 @@ const getArchiveDoctorAppointments = async (req, res) => {
       isArchive: true,
     });
 
-    res.status(200).json(archiveDoctorAppointments);
+    res.status(200).json({ archiveDoctorAppointments });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
