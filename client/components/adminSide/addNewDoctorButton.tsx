@@ -20,21 +20,28 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { newDoctor } from "@/types/doctor";
 import { MultiSelect } from "./multiSelecter";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { CreateDoctor } from "@/store/Slices/DoctorSlice";
-const AddNewDoctorButton = () => {
+import { hospitalLocation } from "@/types/hospitalLocations";
+
+interface Prop {
+  hospitalLocations: hospitalLocation[];
+}
+
+const AddNewDoctorButton = ({ hospitalLocations }: Prop) => {
   const [newDoctor, setNewDoctor] = useState<newDoctor>({
     name: "",
     phone: "",
     specialty: "",
     experience: "",
     description: "",
-    hospitalLocation: "",
+    hospitalLocationId: "",
     image: "",
     email: "",
     timeTable: [],
   });
   const dispatch = useAppDispatch();
+
   const handleAddDoctor = () => {
     if (
       !newDoctor.name &&
@@ -45,7 +52,7 @@ const AddNewDoctorButton = () => {
       !newDoctor.image &&
       newDoctor.timeTable.length <= 0
     ) {
-      return console.log("error");
+      return;
     }
     dispatch(
       CreateDoctor({
@@ -82,87 +89,92 @@ const AddNewDoctorButton = () => {
     },
   ];
   return (
-    <Dialog>
-      <DialogTrigger>
-        <Button>+ Add New Doctor</Button>
-      </DialogTrigger>
-      <DialogContent className="">
-        <DialogHeader>
-          <DialogTitle>Add New Doctor</DialogTitle>
-        </DialogHeader>
-        <p> Name</p>
-        <Input
-          placeholder="Name"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, name: e.target.value });
-          }}
-        />
-        <p> Email</p>
-        <Input
-          placeholder="Skill"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, email: e.target.value });
-          }}
-        />
-        <p> Phone</p>
-        <Input
-          placeholder="Phone"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, phone: e.target.value });
-          }}
-        />
-        <p> specialty</p>
-        <Input
-          placeholder="specialty"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, specialty: e.target.value });
-          }}
-        />
-        <p> Experience</p>
-        <Input
-          placeholder="Experience"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, experience: e.target.value });
-          }}
-        />
-        <p> Description</p>
-        <Input
-          placeholder="Discription"
-          onChange={(e) => {
-            setNewDoctor({ ...newDoctor, description: e.target.value });
-          }}
-        />
-        <p>Hospital Location </p>
-        <Select
-          onValueChange={(e) => {
-            setNewDoctor({ ...newDoctor, hospitalLocation: e });
-          }}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select Hospital Location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Hostpital</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <p>Time Table</p>
-        <MultiSelect
-          options={frameworksList}
-          onValueChange={(e) => {
-            const selectedTimeTable = e as [];
-            setNewDoctor({ ...newDoctor, timeTable: selectedTimeTable });
-          }}
-        />
-        <Button onClick={handleAddDoctor}>Add</Button>
-      </DialogContent>
-    </Dialog>
+    <>
+      <Dialog>
+        <DialogTrigger>
+          <Button>+ Add New Doctor</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Add New Doctor</DialogTitle>
+          </DialogHeader>
+          <p> Name</p>
+          <Input
+            placeholder="Name"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, name: e.target.value });
+            }}
+          />
+          <p> Email</p>
+          <Input
+            placeholder="Skill"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, email: e.target.value });
+            }}
+          />
+          <p> Phone</p>
+          <Input
+            placeholder="Phone"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, phone: e.target.value });
+            }}
+          />
+          <p> specialty</p>
+          <Input
+            placeholder="specialty"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, specialty: e.target.value });
+            }}
+          />
+          <p> Experience</p>
+          <Input
+            placeholder="Experience"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, experience: e.target.value });
+            }}
+          />
+          <p> Description</p>
+          <Input
+            placeholder="Discription"
+            onChange={(e) => {
+              setNewDoctor({ ...newDoctor, description: e.target.value });
+            }}
+          />
+          <p>Hospital Location </p>
+          <Select
+            onValueChange={(e) => {
+              setNewDoctor({ ...newDoctor, hospitalLocationId: e });
+            }}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Hospital Location" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Hostpital</SelectLabel>
+
+                {hospitalLocations.map((item) => {
+                  return (
+                    <SelectItem value={item._id} key={item._id}>
+                      {item.city}
+                    </SelectItem>
+                  );
+                })}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <p>Time Table</p>
+          <MultiSelect
+            options={frameworksList}
+            onValueChange={(e) => {
+              const selectedTimeTable = e as [];
+              setNewDoctor({ ...newDoctor, timeTable: selectedTimeTable });
+            }}
+          />
+          <Button onClick={handleAddDoctor}>Add</Button>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 export default AddNewDoctorButton;

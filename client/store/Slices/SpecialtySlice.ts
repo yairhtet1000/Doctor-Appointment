@@ -1,7 +1,6 @@
 import { BaseOption } from "@/types/BaseOption";
 import { Specialty, specialtySlice } from "@/types/specialty";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import errorMap from "zod/locales/en.js";
 
 const initialState: specialtySlice = {
   specialties: [],
@@ -13,16 +12,15 @@ export const getSpecialties = createAsyncThunk(
   "SpecialtySlice/getSpecialties",
   async (payload: BaseOption, thunkApi) => {
     const { OnError, OnSuccess } = payload;
-    const response = await fetch(`http://localhost:8000/api/specialties`, {
+    const response = await fetch(`http://localhost:8000/api/specialties/`, {
       method: "GET",
     });
     const dataFromServer = await response.json();
-    const { specialties, error } = dataFromServer;
-    error ? OnError && OnError(error) : OnSuccess && OnSuccess();
-    console.log(specialties);
-    specialties.length > 0
-      ? thunkApi.dispatch(setSpecialties(specialties))
-      : null;
+    if (response.ok) {
+      thunkApi.dispatch(setSpecialties(dataFromServer));
+    } else {
+      throw new Error(dataFromServer.error);
+    }
   }
 );
 export const createSpecialty = createAsyncThunk(

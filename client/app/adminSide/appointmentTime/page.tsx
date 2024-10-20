@@ -38,13 +38,14 @@ const AppointmentTime = () => {
             <TableCell>Avilable</TableCell>
             <TableCell>4/42/223</TableCell>
             <TableCell>23:00</TableCell>
-            <Link href={`/adminSide/appointmentTime/${1}`}>
-              <TableCell>
+
+            <TableCell>
+              <Link href={`/adminSide/appointmentTime/${1}`}>
                 <p className="bg-green-500 text-white rounded-xl px-3 py-2">
                   Edit
                 </p>
-              </TableCell>
-            </Link>
+              </Link>
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -45,6 +46,7 @@ const AddNewSpecialty = () => {
       <DialogContent className="">
         <DialogHeader>
           <DialogTitle>Add New Specialty</DialogTitle>
+          <DialogDescription>Specialty</DialogDescription>
         </DialogHeader>
         <p>Specialty</p>
         <Input

@@ -1,12 +1,18 @@
 import AddNewTime from "@/components/adminSide/addNewTime";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
-
+import dynamic from "next/dynamic";
+const ClientOnlyComponent = dynamic(
+  () => import("../../../components/adminSide/addNewTime"),
+  {
+    ssr: false,
+  }
+);
 const TimePage = () => {
   return (
     <div>
       <div className="flex justify-end mb-10">
-        <AddNewTime />
+        <ClientOnlyComponent />
       </div>
       <div className="flex flex-wrap gap-4">
         <Link href={`/adminSide/time/${1}`}>

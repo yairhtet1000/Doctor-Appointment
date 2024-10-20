@@ -1,4 +1,5 @@
 import { BaseOption } from "./BaseOption";
+import { hospitalLocation } from "./hospitalLocations";
 
 export interface doctorSlice extends BaseOption {
   doctors: Doctor[];
@@ -7,14 +8,14 @@ export interface doctorSlice extends BaseOption {
 }
 
 export interface Doctor {
-  id: string;
+  _id: string;
   name: string;
   phone: string;
   email: string;
   specialty: string;
   experience: string;
   description: string;
-  hospitalLocation: string;
+  hospitalLocationId: string;
   image: string;
   isArchive: boolean;
 }
@@ -26,7 +27,7 @@ export interface newDoctor extends BaseOption {
   specialty: string;
   experience: string;
   description: string;
-  hospitalLocation: string;
+  hospitalLocationId: string;
   image: string;
   timeTable: [];
 }

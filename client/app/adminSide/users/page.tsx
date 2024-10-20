@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 
 const Users = () => {
   return (
@@ -28,7 +29,12 @@ const Users = () => {
           <TableCell>HOLa</TableCell>
           <TableCell>afjdsl@gmail.com</TableCell>
           <TableCell>
-            <Button className="bg-red-500 text-white">Ban</Button>
+            <Link
+              href="#"
+              className="bg-red-500 text-white rounded-xl px-3 py-2"
+            >
+              Ban
+            </Link>
           </TableCell>
         </TableRow>
       </TableBody>
