@@ -25,7 +25,7 @@ const getSpecialties = async (req, res) => {
   try {
 
     const specialties = await Specialties.find({ isArchive: false });
-    res.status(200).json(specialties);
+    res.status(200).json({ specialties });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -34,7 +34,7 @@ const getSpecialties = async (req, res) => {
 const getArchiveSpecialties = async (req, res) => {
   try {
     const specialties = await Specialties.find({ isArchive: true });
-    res.status(200).json(specialties);
+    res.status(200).json({ specialties });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

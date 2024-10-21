@@ -21,7 +21,7 @@ const getHospitalLocations = async (req, res) => {
   try {
 
     const hospitalLocation = await HospitalLocation.find({ isArchive: false });
-    res.status(200).json(hospitalLocation);
+    res.status(200).json({ hospitalLocation });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
