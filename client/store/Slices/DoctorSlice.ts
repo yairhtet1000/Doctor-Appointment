@@ -11,8 +11,7 @@ const initialState: doctorSlice = {
 
 export const GetDoctors = createAsyncThunk(
   "DoctorSlice/getDoctor",
-  async (payload: BaseOption, thunkApi) => {
-    const { OnSuccess, OnError } = payload;
+  async (_, thunkApi) => {
     const response = await fetch(
       `http://localhost:8000/api/doctors/allDoctor`,
       {
@@ -20,11 +19,12 @@ export const GetDoctors = createAsyncThunk(
       }
     );
     const dataFromServer = await response.json();
-    const { doctors, error } = dataFromServer;
-    error ? OnError && OnError() : OnSuccess && OnSuccess();
-
-    doctors ? thunkApi.dispatch(setDoctors(doctors)) : null;
-    console.log(doctors);
+    const { doctors } = dataFromServer;
+    if (response.ok) {
+      thunkApi.dispatch(setDoctors(doctors));
+    } else {
+      throw new Error(dataFromServer.error);
+    }
   }
 );
 

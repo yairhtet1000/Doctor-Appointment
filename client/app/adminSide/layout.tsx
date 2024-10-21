@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   Bell,
@@ -38,14 +39,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { ThemeToggle } from "@/components/theme/toggle-theme";
+import { useAppDispatch } from "@/store/hooks";
+import { getSpecialties } from "@/store/Slices/SpecialtySlice";
+import { getHospitalLocatons } from "@/store/Slices/hospitalLocationSlice";
+import { GetDoctors } from "@/store/Slices/DoctorSlice";
 
 interface Prop {
   children: ReactNode;
 }
 
 const adminSideLayout = ({ children }: Prop) => {
+  const dispatch = useAppDispatch();
   const nav = [
     {
       id: 1,
@@ -102,7 +108,11 @@ const adminSideLayout = ({ children }: Prop) => {
       icon: <Clock10 />,
     },
   ];
-
+  useEffect(() => {
+    dispatch(getSpecialties({}));
+    dispatch(getHospitalLocatons());
+    dispatch(GetDoctors());
+  }, []);
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block ">

@@ -15,17 +15,32 @@ import { Doctor } from "@/types/doctor";
 import BackButton from "@/components/adminSide/adminSideBackButton";
 import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
 import DeleteButtonDialog from "@/components/adminSide/deleteButtonDialog";
+import { useAppSelector } from "@/store/hooks";
+import { usePathname } from "next/navigation";
 
 const EditDoctorDetail = () => {
+  const pathName = usePathname();
+  const { doctors } = useAppSelector((state) => state.Doctor);
+  const friendIdParam = pathName.split("/adminSide/doctors/");
+  const doctor = doctors.find(
+    (item) =>
+      item._id ===
+      friendIdParam.toString().substring(1, friendIdParam.toString().length)
+  );
+  if (!doctor) {
+    return <div>doctor doesnt exist</div>;
+  }
   const [editDoctor, setEditDoctor] = useState<Doctor>({
-    id: "",
-    name: "",
-    phone: "",
-    skill: "",
-    experience: "",
-    description: "",
-    hospitalLocation: "",
-    image: "",
+    _id: doctor._id,
+    name: doctor.name,
+    phone: doctor.phone,
+    email: doctor.email,
+    specialty: doctor.specialty,
+    experience: doctor.experience,
+    description: doctor.description,
+    hospitalLocationId: doctor.hospitalLocationId,
+    image: doctor.image,
+    isArchive: doctor.isArchive,
   });
   return (
     <div>
@@ -49,7 +64,7 @@ const EditDoctorDetail = () => {
         <Input
           placeholder="Skill"
           onChange={(e) => {
-            setEditDoctor({ ...editDoctor, skill: e.target.value });
+            setEditDoctor({ ...editDoctor, specialty: e.target.value });
           }}
         />
         <p> Experience</p>
@@ -69,7 +84,7 @@ const EditDoctorDetail = () => {
         <p>Hospital Location </p>
         <Select
           onValueChange={(e) => {
-            setEditDoctor({ ...editDoctor, hospitalLocation: e });
+            setEditDoctor({ ...editDoctor, hospitalLocationId: e });
           }}
         >
           <SelectTrigger className="w-full">

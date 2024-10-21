@@ -6,7 +6,8 @@ const jsonwebtoken = require("jsonwebtoken");
 const getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    if (!users) return res.status(404).json({ error: "There Is No User." });
+    res.status(200).json({ users });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -23,7 +24,7 @@ const getUserByID = async (req, res) => {
 
     if (!user) return res.status(404).json({ error: "User Not Found." });
 
-    res.status(200).json(user);
+    res.status(200).json({ user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -43,9 +44,9 @@ const createUser = async (req, res) => {
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    const user = new User(userData);
+    const user = new User({ userData });
     await user.save();
-    res.status(200).json({ message: "Register Successful.", user });
+    res.status(200).json({ message: "User Register Successful.", user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -67,7 +68,7 @@ const userLogin = async (req, res) => {
     const accessToken = generateToken(getUser.id, getUser.name);
 
     res.cookie("token", accessToken, { httpOnly: true }).status(200).json({
-      message: "Login Successful",
+      message: "User Login Successful",
       getUser,
     });
   } catch (error) {
@@ -100,7 +101,7 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ error: "Patient Not Found." });
     }
 
-    res.status(200).json({ message: "Update Successful", user });
+    res.status(200).json({ message: "User Update Successful", user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -120,7 +121,7 @@ const isBanned = async (req, res) => {
 
     await findUser.updateOne({ isBanned });
 
-    res.status(200).json({ message: "Successful.", findUser });
+    res.status(200).json({ message: "Successfully Banned User.", findUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -140,7 +141,9 @@ const adminAccess = async (req, res) => {
 
     await findUser.updateOne({ role });
 
-    res.status(200).json({ message: "Successful.", findUser });
+    res
+      .status(200)
+      .json({ message: "Successfully Changed User Role.", findUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

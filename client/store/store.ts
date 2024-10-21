@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import DoctorSliceReducer from "../store/Slices/DoctorSlice";
 import SpecialtySliceReducer from "../store/Slices/SpecialtySlice";
+import HospitalLocationReducer from "../store/Slices/hospitalLocationSlice";
 export const store = configureStore({
   reducer: {
     Doctor: DoctorSliceReducer,
     Specialty: SpecialtySliceReducer,
+    HospitalLocation: HospitalLocationReducer,
   },
 });
 
