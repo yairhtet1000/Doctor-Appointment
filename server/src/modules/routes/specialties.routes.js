@@ -6,6 +6,10 @@ const specialtiesRouter = Router();
 // get
 specialtiesRouter.get("/", SpecialtiesController.getSpecialties);
 specialtiesRouter.get("/:specialty_id", SpecialtiesController.getSpecialty);
+specialtiesRouter.get(
+  "/archive/all",
+  SpecialtiesController.getArchiveSpecialties
+);
 
 // post
 specialtiesRouter.post("/create", SpecialtiesController.createSpecialties);
@@ -14,6 +18,12 @@ specialtiesRouter.post("/create", SpecialtiesController.createSpecialties);
 specialtiesRouter.patch(
   "/update/:specialty_id",
   SpecialtiesController.updateSpecialty
+);
+
+//save archive
+specialtiesRouter.patch(
+  "/archive/save/:specialty_id",
+  SpecialtiesController.saveArchiveSpecialty
 );
 
 // delete

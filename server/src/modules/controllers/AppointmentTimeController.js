@@ -30,6 +30,15 @@ const getAppointmentTimes = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+const getArchiveAppointmentTimes = async (req, res) => {
+  try {
+    const appointment_time = await AppointmentTime.find({ isArchive: true });
+
+    res.status(200).json(appointment_time);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
 
 const getAppointmentTime = async (req, res) => {
   const { appointment_time_id } = req.params;
@@ -79,6 +88,33 @@ const updateAppointmentTime = async (req, res) => {
   }
 };
 
+const saveArchiveAppointmentTime = async (req, res) => {
+  const { appointment_time_id } = req.params;
+  const { isArchive } = req.body;
+  try {
+    if (validator.isMongoId(appointment_time_id.toString())) {
+      const getAppointment = await AppointmentTime.findByIdAndUpdate(
+        appointment_time_id,
+        {
+          isArchive,
+        }
+      );
+      if (getAppointment) {
+        const archived_appointment_time = await AppointmentTime.findById(
+          appointment_time_id
+        );
+        res
+          .status(200)
+          .json({ message: "archived", archived_appointment_time });
+      } else {
+        res.status(404).json({ message: "appointment time doesn't exit" });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const deleteAppointmentTime = async (req, res) => {
   const { appointment_time_id } = req.params;
 
@@ -90,8 +126,10 @@ const deleteAppointmentTime = async (req, res) => {
       _id: appointment_time_id,
     });
 
-    if (!get_appointment_time)
-      return res.status(404).json({ error: "appointment type Not Found." });
+    if (!get_appointment_time.isArchive)
+      return res.status(404).json({
+        error: "appointment time Not Found Or appointment time is not archived",
+      });
 
     await AppointmentTime.deleteOne({ _id: appointment_time_id });
 
@@ -105,6 +143,8 @@ module.exports = {
   createAppointmentTime,
   getAppointmentTimes,
   getAppointmentTime,
+  getArchiveAppointmentTimes,
   updateAppointmentTime,
+  saveArchiveAppointmentTime,
   deleteAppointmentTime,
 };

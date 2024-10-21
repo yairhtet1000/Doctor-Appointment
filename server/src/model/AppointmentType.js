@@ -7,6 +7,10 @@ const appointmentTypeSchema = new mongoose.Schema(
       require: true,
       unique: true,
     },
+    isArchive: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

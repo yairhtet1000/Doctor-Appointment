@@ -19,7 +19,16 @@ const createHospitalLocation = async (req, res) => {
 
 const getHospitalLocations = async (req, res) => {
   try {
-    const hospitalLocation = await HospitalLocation.find();
+    const hospitalLocation = await HospitalLocation.find({ isArchive: false });
+    res.status(200).json(hospitalLocation);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const getArchiveHospitalLocations = async (req, res) => {
+  try {
+    const hospitalLocation = await HospitalLocation.find({ isArchive: true });
     res.status(200).json(hospitalLocation);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -66,6 +75,33 @@ const updateHospitalLocation = async (req, res) => {
   }
 };
 
+const saveArchiveLocation = async (req, res) => {
+  const { appointment_time_id } = req.params;
+  const { isArchive } = req.body;
+  try {
+    if (validator.isMongoId(appointment_time_id.toString())) {
+      const getAppointment = await AppointmentTime.findByIdAndUpdate(
+        appointment_time_id,
+        {
+          isArchive,
+        }
+      );
+      if (getAppointment) {
+        const archived_appointment_time = await AppointmentTime.findById(
+          appointment_time_id
+        );
+        res
+          .status(200)
+          .json({ message: "archived", archived_appointment_time });
+      } else {
+        res.status(404).json({ message: "appointment time doesn't exit" });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const deleteHospitalLocation = async (req, res) => {
   const { location_id } = req.params;
 
@@ -74,11 +110,13 @@ const deleteHospitalLocation = async (req, res) => {
       const getLocation = await HospitalLocation.findOne({
         _id: location_id,
       });
-      if (getLocation) {
+      if (getLocation.isArchive) {
         await HospitalLocation.deleteOne({ _id: location_id });
         res.status(200).json({ message: "Deleted Successfully." });
       } else {
-        res.status(404).json({ error: "location Not Found." });
+        res
+          .status(404)
+          .json({ error: "location Not Found. OR location is not archived" });
       }
     } else {
       res.status(400).json({ error: "Enter Valid ID." });
@@ -92,6 +130,8 @@ module.exports = {
   createHospitalLocation,
   getHospitalLocation,
   getHospitalLocations,
+  getArchiveHospitalLocations,
+  saveArchiveLocation,
   deleteHospitalLocation,
   updateHospitalLocation,
 };

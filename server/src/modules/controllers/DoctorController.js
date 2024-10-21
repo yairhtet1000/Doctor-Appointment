@@ -3,10 +3,7 @@ const validator = require("validator");
 
 const getDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find({ isArchive: false })
-      .populate("specialty", "specializedName")
-      .populate("hospitalLocation", "city address")
-      .populate("timeTable", "time");
+    const doctors = await Doctor.find({ isArchive: false });
 
     if (!doctors) return res.status(404).json({ error: "There Is No Doctor." });
 
@@ -20,10 +17,7 @@ const getDoctorByID = async (req, res) => {
   const { doctorID } = req.params;
 
   try {
-    const doctor = await Doctor.findById(doctorID).populate(
-      "specialty",
-      "specializedName"
-    );
+    const doctor = await Doctor.findById(doctorID);
 
     if (!doctor) return res.status(404).json({ error: "Doctor Not Found." });
 
@@ -35,10 +29,7 @@ const getDoctorByID = async (req, res) => {
 
 const getArchiveDoctors = async (req, res) => {
   try {
-    const archiveDoctors = await Doctor.find({ isArchive: true }).populate(
-      "specialty",
-      "specializedName"
-    );
+    const archiveDoctors = await Doctor.find({ isArchive: true });
 
     if (!archiveDoctors)
       return res.status(404).json({ error: "There Is No Doctor." });
