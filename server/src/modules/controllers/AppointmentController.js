@@ -22,7 +22,7 @@ const getAppointments = async (req, res) => {
   try {
     const appointments = await Appointment.find({ isArchive: false });
 
-    res.status(200).json(appointments);
+    res.status(200).json({ appointments });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -46,7 +46,7 @@ const getArchiveAppointments = async (req, res) => {
   try {
     const archiveAppointments = await Appointment.find({ isArchive: true });
 
-    res.status(200).json(archiveAppointments);
+    res.status(200).json({ archiveAppointments });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
