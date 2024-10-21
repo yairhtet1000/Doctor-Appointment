@@ -50,7 +50,7 @@ const getArchiveAppointmentTypes = async (req, res) => {
   try {
     const appointment_type = await AppointmentType.find({ isArchive: true });
 
-    res.status(200).json(appointment_type);
+    res.status(200).json({ appointment_type });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

@@ -132,6 +132,6 @@ Content-Type: application/json
 }
 ###
 //delete
-DELETE http://localhost:8000/api/appointment/time/delete/6715d1085e595561a34054f2 HTTP/1.1
+DELETE http://localhost:8000/api/appointment/time/delete/67148af7efe0a56c11cfc5a8 HTTP/1.1
 
 ##############################################################################################
