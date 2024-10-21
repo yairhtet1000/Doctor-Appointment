@@ -1,30 +1,35 @@
 const { Router } = require("express");
-const doctorAppointmentRotuer = Router();
+const doctorAppointmentRouter = Router();
 const doctorAppointmentController = require("../controllers/DoctorAppointmentController");
 
-doctorAppointmentRotuer.get(
+doctorAppointmentRouter.get(
   "/",
   doctorAppointmentController.getDoctorAppointments
 );
 
-doctorAppointmentRotuer.get(
+doctorAppointmentRouter.get(
   "/:doctor_appointment_id",
   doctorAppointmentController.getDoctorAppointment
 );
 
-doctorAppointmentRotuer.post(
+doctorAppointmentRouter.post(
   "/create",
   doctorAppointmentController.createDoctorAppointment
 );
 
-doctorAppointmentRotuer.patch(
+doctorAppointmentRouter.patch(
   "/update/:doctor_appointment_id",
   doctorAppointmentController.updateDoctorAppointment
 );
 
-doctorAppointmentRotuer.delete(
+doctorAppointmentRouter.patch(
+  "/archive/save/:doctor_appointment_id",
+  doctorAppointmentController.SaveArchiveAppointment
+);
+
+doctorAppointmentRouter.delete(
   "/delete/:doctor_appointment_id",
   doctorAppointmentController.deleteDoctorAppointments
 );
 
-module.exports = doctorAppointmentRotuer;
+module.exports = doctorAppointmentRouter;

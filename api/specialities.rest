@@ -2,6 +2,10 @@
 GET http://localhost:8000/api/specialties/
 
 ###
+//get all archive
+GET http://localhost:8000/api/specialties/archive/all
+
+###
 //get one
 GET http://localhost:8000/api/specialties/670dfaae257a7badc12e696f
 
@@ -11,7 +15,7 @@ POST http://localhost:8000/api/specialties/create HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"Test1"
+    "name":"Test2"
 }
 ###
 //update 
@@ -19,9 +23,16 @@ PATCH  http://localhost:8000/api/specialties/update/670dfaae257a7badc12e696f
 Content-Type: application/json
 
 {
-    "name":"Test1_update"
+    "name":"Test"
 }
+###
+//archive save 
+PATCH  http://localhost:8000/api/specialties/archive/save/670dfaae257a7badc12e696f
+Content-Type: application/json
 
+{
+    "isArchive":true
+}
 ###
 //delete specialty
-DELETE http://localhost:8000/api/specialties/670dfdd66a8faaf712530ced HTTP/1.1
+DELETE http://localhost:8000/api/specialties/670dfaae257a7badc12e696f HTTP/1.1

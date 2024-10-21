@@ -2,6 +2,10 @@
 GET http://localhost:8000/api/appointment/
 
 ###
+//Get all appointments
+GET http://localhost:8000/api/appointment/archive/all
+
+###
 //
 GET http://localhost:8000/api/appointment/670cb10dfea64abddaf30c95
 
@@ -27,12 +31,18 @@ Content-Type: application/json
 {
     "doctor_id":"670dfbde6a8faaf712530ce3",
     "time":"6703c7ed5648674e55b87561",
-    "isArchive":false
 }
+###
+//archive appointment
+PATCH  http://localhost:8000/api/appointment/archive/save/670cb10dfea64abddaf30c95
+Content-Type: application/json
 
+{
+    "isArchive":true
+}
 ###
 //delete appointment
-DELETE http://localhost:8000/api/appointment/6703cc1869435a641defd20f
+DELETE http://localhost:8000/api/appointment/670cc2627cd6defa2ac85985
 
 
 
@@ -43,8 +53,10 @@ DELETE http://localhost:8000/api/appointment/6703cc1869435a641defd20f
 GET http://localhost:8000/api/appointment/types/all
 
 ###
+//archive
+GET http://localhost:8000/api/appointment/types/archive/all
 
-
+###
 //get one
 GET http://localhost:8000/api/appointment/type/6700ad79f67ac13cffcdab28
 
@@ -52,8 +64,9 @@ GET http://localhost:8000/api/appointment/type/6700ad79f67ac13cffcdab28
 //create type
 POST http://localhost:8000/api/appointment/type/create HTTP/1.1
 Content-Type: application/json
+
 {
-    "name":"TestType"
+    "name":"TestType2"
 }
 
 ###
@@ -64,11 +77,18 @@ Content-Type: application/json
 {
     "name":"update type"
 }
+###
+//archvie type
+PATCH  http://localhost:8000/api/appointment/type/archive/save/6700ad79f67ac13cffcdab28
+Content-Type: application/json
 
+{
+    "isArchive":true
+}
 
 ###
 //delete
-DELETE http://localhost:8000/api/appointment/type/delete/6700b3b2999d124f090c0469 
+DELETE http://localhost:8000/api/appointment/type/delete/6700ad79f67ac13cffcdab28 
 
 
 
@@ -79,6 +99,9 @@ GET http://localhost:8000/api/appointment/time/all
 
 ###
 
+GET http://localhost:8000/api/appointment/time/archive/all
+
+###
 // get one time
 GET http://localhost:8000/api/appointment/time/6703c7ed5648674e55b87561
 
@@ -89,7 +112,7 @@ POST http://localhost:8000/api/appointment/time/create
 Content-Type:  application/json
 
 {
-    "time" : "4:30"
+    "time" : "4:00"
 }
 ###
 //update
@@ -100,7 +123,15 @@ Content-Type: application/json
     "time":"TestTime"
 }
 ###
+//archvie save
+PATCH http://localhost:8000/api/appointment/time/archive/save/67148ae3efe0a56c11cfc5a5
+Content-Type: application/json
+
+{
+    "isArchive":false
+}
+###
 //delete
-DELETE http://localhost:8000/api/appointment/time/delete/6703c1423cf17d6d0767c9fe HTTP/1.1
+DELETE http://localhost:8000/api/appointment/time/delete/6715d1085e595561a34054f2 HTTP/1.1
 
 ##############################################################################################

@@ -67,14 +67,36 @@ const updateAppointment = async (req, res) => {
     );
 
     if (!update_appointment) {
-      res.status(404).json({ error: "appointment not found" });
+      return res.status(404).json({ error: "appointment not found" });
     }
-
     const updatedAppointment = await Appointment.findById(appointment_id);
 
     res
       .status(200)
       .json({ message: "updated successfully", updatedAppointment });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const SaveArchiveAppointment = async (req, res) => {
+  const { appointment_id } = req.params;
+  const { isArchive } = req.body;
+  try {
+    if (validator.isMongoId(appointment_id.toString())) {
+      const getAppointment = await Appointment.findByIdAndUpdate(
+        appointment_id,
+        {
+          isArchive,
+        }
+      );
+      if (getAppointment) {
+        const archived_appointment = await Appointment.findById(appointment_id);
+        res.status(200).json({ message: "archived", archived_appointment });
+      } else {
+        res.status(404).json({ message: "appointment doesn't exit" });
+      }
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -87,12 +109,14 @@ const deleteAppointments = async (req, res) => {
     if (validator.isMongoId(appointment_id.toString())) {
       const getAppointment = await Appointment.findOne({ _id: appointment_id });
 
-      if (getAppointment) {
+      if (getAppointment.isArchive) {
         await Appointment.deleteOne({ _id: appointment_id });
 
         res.status(200).json({ message: "Deleted Successfully." });
       } else {
-        res.status(404).json({ error: "Appointment doesn't exist" });
+        res.status(404).json({
+          error: "Appointment doesn't exist OR appointment is not archive",
+        });
       }
     } else {
       res.status(400).json({ error: "Enter Valid ID." });
@@ -107,6 +131,7 @@ module.exports = {
   getAppointments,
   getArchiveAppointments,
   getAppointment,
+  SaveArchiveAppointment,
   deleteAppointments,
   updateAppointment,
 };

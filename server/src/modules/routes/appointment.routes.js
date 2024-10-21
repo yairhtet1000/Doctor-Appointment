@@ -1,87 +1,115 @@
 const { Router } = require("express");
-const appointmentRotuer = Router();
+const appointmentRouter = Router();
 const appointmentController = require("../controllers/AppointmentController");
 const appointmentTypeController = require("../controllers/AppointmentTypeController");
 const AppointmentTimeController = require("../controllers/AppointmentTimeController");
 
 // appointment schema
 //get
-appointmentRotuer.get("/", appointmentController.getAppointments);
-appointmentRotuer.get("/:appointment_id", appointmentController.getAppointment);
-appointmentRotuer.get("/archive", appointmentController.getArchiveAppointments);
+appointmentRouter.get("/", appointmentController.getAppointments);
+appointmentRouter.get("/:appointment_id", appointmentController.getAppointment);
+appointmentRouter.get(
+  "/archive/all",
+  appointmentController.getArchiveAppointments
+);
 
 //post
-appointmentRotuer.post("/create", appointmentController.createAppointment);
+appointmentRouter.post("/create", appointmentController.createAppointment);
 
 //update
-appointmentRotuer.patch(
+appointmentRouter.patch(
   "/update/:appointment_id",
   appointmentController.updateAppointment
 );
 
+//save archive
+appointmentRouter.patch(
+  "/archive/save/:appointment_id",
+  appointmentController.SaveArchiveAppointment
+);
+
 //delete
-appointmentRotuer.delete(
+appointmentRouter.delete(
   "/:appointment_id",
   appointmentController.deleteAppointments
 );
 
 //appointment type schema
 //get
-appointmentRotuer.get(
+appointmentRouter.get(
   "/types/all",
   appointmentTypeController.getAppointmentTypes
 );
 
-appointmentRotuer.get(
+//archive
+appointmentRouter.get(
+  "/types/archive/all",
+  appointmentTypeController.getArchiveAppointmentTypes
+);
+appointmentRouter.get(
   "/type/:appointment_type_id",
   appointmentTypeController.getAppointmentType
 );
-
-appointmentRotuer.patch(
+//update
+appointmentRouter.patch(
   "/type/update/:appointment_type_id",
   appointmentTypeController.updateAppointmentType
 );
+//save archive
+appointmentRouter.patch(
+  "/type/archive/save/:appointment_type_id",
+  appointmentTypeController.saveArchiveAppointmentType
+);
 
 //create
-appointmentRotuer.post(
+appointmentRouter.post(
   "/type/create",
   appointmentTypeController.createAppointmentType
 );
 
-appointmentRotuer.delete(
+appointmentRouter.delete(
   "/type/delete/:appointment_type_id",
   appointmentTypeController.deleteAppointmentType
 );
 
 // appointment time schema
 //get all time
-appointmentRotuer.get(
+appointmentRouter.get(
   "/time/all",
   AppointmentTimeController.getAppointmentTimes
 );
-
+//get archive
+appointmentRouter.get(
+  "/time/archive/all",
+  AppointmentTimeController.getArchiveAppointmentTimes
+);
 //get one time
-appointmentRotuer.get(
+appointmentRouter.get(
   "/time/:appointment_time_id",
   AppointmentTimeController.getAppointmentTime
 );
 
 //create time
-appointmentRotuer.post(
+appointmentRouter.post(
   "/time/create",
   AppointmentTimeController.createAppointmentTime
 );
 
 // update time
-appointmentRotuer.patch(
+appointmentRouter.patch(
   "/time/update/:appointment_time_id",
   AppointmentTimeController.updateAppointmentTime
 );
+//save archive
+appointmentRouter.patch(
+  "/time/archive/save/:appointment_time_id",
+  AppointmentTimeController.saveArchiveAppointmentTime
+);
 
 // delete time
-appointmentRotuer.delete(
+appointmentRouter.delete(
   "/time/delete/:appointment_time_id",
   AppointmentTimeController.deleteAppointmentTime
 );
 
-module.exports = appointmentRotuer;
+module.exports = appointmentRouter;

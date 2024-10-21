@@ -27,6 +27,12 @@ hospitalLocationRouter.patch(
   hospitalLocationController.updateHospitalLocation
 );
 
+//archive
+hospitalLocationRouter.patch(
+  "/archive/save/:location_id",
+  hospitalLocationController.saveArchiveLocation
+);
+
 // delete
 hospitalLocationRouter.delete(
   "/:location_id",

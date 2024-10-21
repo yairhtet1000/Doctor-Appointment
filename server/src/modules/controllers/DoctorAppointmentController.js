@@ -87,6 +87,33 @@ const updateDoctorAppointment = async (req, res) => {
   }
 };
 
+const SaveArchiveAppointment = async (req, res) => {
+  const { doctor_appointment_id } = req.params;
+  const { isArchive } = req.body;
+  try {
+    if (validator.isMongoId(doctor_appointment_id.toString())) {
+      const getAppointment = await DoctorAppointment.findByIdAndUpdate(
+        doctor_appointment_id,
+        {
+          isArchive,
+        }
+      );
+      if (getAppointment) {
+        const archived_doctor_appointment = await DoctorAppointment.findById(
+          doctor_appointment_id
+        );
+        res
+          .status(200)
+          .json({ message: "archived", archived_doctor_appointment });
+      } else {
+        res.status(404).json({ message: "appointment doesn't exit" });
+      }
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const deleteDoctorAppointments = async (req, res) => {
   const { doctor_appointment_id } = req.params;
 
@@ -96,12 +123,14 @@ const deleteDoctorAppointments = async (req, res) => {
         _id: doctor_appointment_id,
       });
 
-      if (getAppointment) {
+      if (getAppointment.isArchive) {
         await DoctorAppointment.deleteOne({ _id: doctor_appointment_id });
 
         res.status(200).json({ message: "Deleted Successfully." });
       } else {
-        res.status(404).json({ error: "Doctor_Appointment doesn't exist" });
+        res
+          .status(404)
+          .json({ error: "Doctor_Appointment doesn't exist or not archived" });
       }
     } else {
       res.status(400).json({ error: "Enter Valid ID." });
@@ -117,5 +146,6 @@ module.exports = {
   getArchiveDoctorAppointments,
   getDoctorAppointment,
   deleteDoctorAppointments,
+  SaveArchiveAppointment,
   updateDoctorAppointment,
 };
