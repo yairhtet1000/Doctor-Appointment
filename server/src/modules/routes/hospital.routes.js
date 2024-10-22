@@ -9,6 +9,11 @@ hospitalLocationRouter.get(
   hospitalLocationController.getHospitalLocations
 );
 
+// get
+hospitalLocationRouter.get(
+  "/archive/all",
+  hospitalLocationController.getArchiveHospitalLocations
+);
 //post
 hospitalLocationRouter.post(
   "/create",

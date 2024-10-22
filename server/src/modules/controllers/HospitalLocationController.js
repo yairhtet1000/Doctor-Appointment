@@ -76,23 +76,19 @@ const updateHospitalLocation = async (req, res) => {
 };
 
 const saveArchiveLocation = async (req, res) => {
-  const { appointment_time_id } = req.params;
+  const { location_id } = req.params;
   const { isArchive } = req.body;
   try {
-    if (validator.isMongoId(appointment_time_id.toString())) {
-      const getAppointment = await AppointmentTime.findByIdAndUpdate(
-        appointment_time_id,
+    if (validator.isMongoId(location_id.toString())) {
+      const getLocation = await HospitalLocation.findByIdAndUpdate(
+        location_id,
         {
           isArchive,
         }
       );
-      if (getAppointment) {
-        const archived_appointment_time = await AppointmentTime.findById(
-          appointment_time_id
-        );
-        res
-          .status(200)
-          .json({ message: "archived", archived_appointment_time });
+      if (getLocation) {
+        const archived_location = await HospitalLocation.findById(location_id);
+        res.status(200).json({ message: "archived", archived_location });
       } else {
         res.status(404).json({ message: "appointment time doesn't exit" });
       }
