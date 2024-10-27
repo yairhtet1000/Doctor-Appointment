@@ -13,7 +13,7 @@ const createAppointmentTime = async (req, res) => {
     await appointment_time.save();
 
     res.status(200).json({
-      message: "appointment type created successfully",
+      message: "appointment time created successfully",
       appointment_time,
     });
   } catch (error) {

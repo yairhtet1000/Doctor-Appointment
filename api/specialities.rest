@@ -14,16 +14,16 @@ GET http://localhost:8000/api/specialties/670dfaae257a7badc12e696f
 POST http://localhost:8000/api/specialties/create HTTP/1.1
 Content-Type: application/json
 
-{
+{ 
     "name":"Test2"
 }
 ###
 //update 
-PATCH  http://localhost:8000/api/specialties/update/670dfaae257a7badc12e696f
+PATCH  http://localhost:8000/api/specialties/update/6715f69afb6c5824c28c493b
 Content-Type: application/json
 
 {
-    "name":"Test"
+    "name":"Test3"
 }
 ###
 //archive save 
