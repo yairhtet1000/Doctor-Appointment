@@ -23,7 +23,7 @@ const createAppointmentTime = async (req, res) => {
 
 const getAppointmentTimes = async (req, res) => {
   try {
-    const appointment_time = await AppointmentTime.find();
+    const appointment_time = await AppointmentTime.find({ isArchive: false });
 
     res.status(200).json({ appointment_time });
   } catch (error) {

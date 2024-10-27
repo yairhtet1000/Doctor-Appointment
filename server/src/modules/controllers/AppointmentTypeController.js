@@ -39,7 +39,7 @@ const getAppointmentType = async (req, res) => {
 
 const getAppointmentTypes = async (req, res) => {
   try {
-    const appointment_type = await AppointmentType.find();
+    const appointment_type = await AppointmentType.find({ isArchive: false });
 
     res.status(200).json({ appointment_type });
   } catch (error) {
