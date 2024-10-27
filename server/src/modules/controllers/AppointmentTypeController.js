@@ -2,14 +2,14 @@ const AppointmentType = require("../../model/AppointmentType");
 const validator = require("validator");
 
 const createAppointmentType = async (req, res) => {
-  const { name } = req.body;
+  const { typeName } = req.body;
   try {
-    const appointmentExist = await AppointmentType.findOne({ typeName: name });
+    const appointmentExist = await AppointmentType.findOne({ typeName });
 
     if (appointmentExist)
       return res.status(409).json({ error: "type already exist" });
 
-    const appointment_type = new AppointmentType({ typeName: name });
+    const appointment_type = new AppointmentType({ typeName });
     await appointment_type.save();
 
     res.status(200).json({
@@ -57,14 +57,14 @@ const getArchiveAppointmentTypes = async (req, res) => {
 };
 
 const updateAppointmentType = async (req, res) => {
-  const { name } = req.body;
+  const { typeName } = req.body;
   const { appointment_type_id } = req.params;
 
   try {
     const update_appointment_type = await AppointmentType.findByIdAndUpdate(
       appointment_type_id,
       {
-        typeName: name,
+        typeName,
       }
     );
 
@@ -103,7 +103,7 @@ const saveArchiveAppointmentType = async (req, res) => {
           .status(200)
           .json({ message: "archived", archived_appointment_type });
       } else {
-        res.status(404).json({ message: "appointment time doesn't exit" });
+        res.status(404).json({ message: "appointment type doesn't exit" });
       }
     }
   } catch (error) {
