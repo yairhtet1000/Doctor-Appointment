@@ -37,6 +37,7 @@ const Doctors = () => {
           <TableRow>
             <TableHead>Id</TableHead>
             <TableHead>Doctor Name</TableHead>
+            <TableHead>Email</TableHead>
             <TableHead>Specialty</TableHead>
             <TableHead>Experience</TableHead>
             <TableHead>Phone</TableHead>
@@ -52,6 +53,7 @@ const Doctors = () => {
               <TableRow key={index}>
                 <TableCell>{index}</TableCell>
                 <TableCell>{doctor.name}</TableCell>
+                <TableCell>{doctor.email}</TableCell>
                 <TableCell>{doctor.specialty}</TableCell>
                 <TableCell>{doctor.experience}</TableCell>
                 <TableCell>{doctor.phone}</TableCell>

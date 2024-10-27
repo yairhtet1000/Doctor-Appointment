@@ -12,8 +12,9 @@ import {
 interface Prop {
   title: string;
   onDelete: (data?: any) => void;
+  disable: boolean;
 }
-const DeleteButtonDialog = ({ title, onDelete }: Prop) => {
+const DeleteButtonDialog = ({ title, onDelete, disable }: Prop) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,11 +28,17 @@ const DeleteButtonDialog = ({ title, onDelete }: Prop) => {
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-between">
-          <Button className="bg-red-500 hover:bg-red-400" onClick={onDelete}>
+          <Button
+            className="bg-red-500 hover:bg-red-400"
+            onClick={onDelete}
+            disabled={disable}
+          >
             Delete
           </Button>
           <DialogClose>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary" disabled={disable}>
+              Cancel
+            </Button>
           </DialogClose>
         </div>
       </DialogContent>

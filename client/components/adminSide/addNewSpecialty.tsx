@@ -2,6 +2,7 @@
 import { Button } from "../ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -14,12 +15,14 @@ import { NewSpecialty } from "@/types/specialty";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { createSpecialty } from "@/store/Slices/SpecialtySlice";
 import { Icons } from "./loadingicon";
+import { useToast } from "@/hooks/use-toast";
 
 const AddNewSpecialty = () => {
   const [newSpecialty, setNewSpecialty] = useState<NewSpecialty>({
     name: "",
   });
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const { isLoading } = useAppSelector((state) => state.Specialty);
   const handleAddNewSpecialty = () => {
     if (!newSpecialty.name) {
@@ -28,11 +31,11 @@ const AddNewSpecialty = () => {
     dispatch(
       createSpecialty({
         ...newSpecialty,
-        OnSuccess: () => {
-          console.log("success");
+        OnSuccess: (message) => {
+          toast({ title: message, variant: "default" });
         },
         OnError: (error) => {
-          console.log(error);
+          toast({ title: error, variant: "destructive" });
         },
       })
     );
@@ -56,13 +59,15 @@ const AddNewSpecialty = () => {
             setNewSpecialty({ ...newSpecialty, name: e.target.value });
           }}
         />
-        <Button onClick={handleAddNewSpecialty}>
-          {isLoading ? (
-            <Icons.spinner className="h-4 w-4 animate-spin" />
-          ) : (
-            "Add"
-          )}
-        </Button>
+        <DialogClose>
+          <Button onClick={handleAddNewSpecialty} className="w-full">
+            {isLoading ? (
+              <Icons.spinner className="h-4 w-4 animate-spin" />
+            ) : (
+              "Add"
+            )}
+          </Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );

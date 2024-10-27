@@ -6,10 +6,17 @@ export interface specialtySlice {
   Error: Error | null;
 }
 export interface Specialty {
-  id: string;
+  _id: string;
   name: string;
+  isArchive?: boolean;
 }
 
 export interface NewSpecialty extends BaseOption {
   name: string;
+}
+
+export interface UpdateSpecialtyPayload extends BaseOption, Specialty {}
+
+export interface DeleteSpecialtyPayload extends BaseOption {
+  _id: string;
 }

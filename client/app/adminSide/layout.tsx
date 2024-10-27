@@ -45,6 +45,8 @@ import { useAppDispatch } from "@/store/hooks";
 import { getSpecialties } from "@/store/Slices/SpecialtySlice";
 import { getHospitalLocatons } from "@/store/Slices/hospitalLocationSlice";
 import { GetDoctors } from "@/store/Slices/DoctorSlice";
+import { getTimes } from "@/store/Slices/TimeSlice";
+import { getAppointmentTypes } from "@/store/Slices/AppointmentTypeSlice";
 
 interface Prop {
   children: ReactNode;
@@ -112,6 +114,8 @@ const adminSideLayout = ({ children }: Prop) => {
     dispatch(getSpecialties({}));
     dispatch(getHospitalLocatons());
     dispatch(GetDoctors());
+    dispatch(getTimes());
+    dispatch(getAppointmentTypes());
   }, []);
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

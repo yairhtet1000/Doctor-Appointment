@@ -4,7 +4,10 @@ import DeleteButtonDialog from "@/components/adminSide/deleteButtonDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { updateHospitalLocation } from "@/store/Slices/hospitalLocationSlice";
+import {
+  deleteHostpitalLocations,
+  updateHospitalLocation,
+} from "@/store/Slices/hospitalLocationSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { UpdateHospitalLocationPayload } from "@/types/hospitalLocations";
 import { useParams } from "next/navigation";
@@ -17,7 +20,7 @@ const HospitalLocationDetails = () => {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
   const { hospitalLocationId } = param;
-  const { hospitalLocations } = useAppSelector(
+  const { hospitalLocations, isLoading } = useAppSelector(
     (state) => state.HospitalLocation
   );
   const hospitalLocation = hospitalLocations.find(
@@ -44,7 +47,20 @@ const HospitalLocationDetails = () => {
       })
     );
   };
-  const handleDeleteHospitalLocaion = () => {};
+  const handleDeleteHospitalLocaion = () => {
+    dispatch(
+      deleteHostpitalLocations({
+        _id: hospitalLocationId as string,
+        OnSuccess: (message) => {
+          toast({ title: message, variant: "default" });
+          router.push("/adminSide/hospitalLocations");
+        },
+        OnError: (error) => {
+          toast({ title: error, variant: "destructive" });
+        },
+      })
+    );
+  };
   return (
     <div>
       <AdminSideBackButton to="hospitalLocations" />
@@ -75,12 +91,14 @@ const HospitalLocationDetails = () => {
           <Button
             className="w-fit bg-green-600 hover:bg-green-500 text-white"
             onClick={handleUpdateHospitalLocation}
+            disabled={isLoading}
           >
             Update
           </Button>
           <DeleteButtonDialog
             title="Delete HospitalLocation?"
-            onDelete={() => {}}
+            onDelete={handleDeleteHospitalLocaion}
+            disable={isLoading}
           />
         </div>
       </div>

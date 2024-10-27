@@ -17,7 +17,7 @@ export const getHospitalLocatons = createAsyncThunk(
   "HospitalLocatonSlice/getHospitalLocations",
   async (_, thunkApi) => {
     const response = await fetch(
-      `http://localhost:8000/api/hospital/location`,
+      `${process.env.NEXT_PUBLIC_ADMIN_SIDE_API}/hospital/location`,
       { method: "GET" }
     );
     const dataFromServer = await response.json();
@@ -35,7 +35,7 @@ export const updateHospitalLocation = createAsyncThunk(
     thunkApi.dispatch(setLoading(true));
     const { OnSuccess, OnError, _id } = payload;
     const response = await fetch(
-      `http://localhost:8000/api/hospital/location/update/${_id}`,
+      `${process.env.NEXT_PUBLIC_ADMIN_SIDE_API}/hospital/location/update/${_id}`,
       {
         method: "PATCH",
         headers: { "content-type": "application/json" },
@@ -59,7 +59,7 @@ export const createHostpitalLocations = createAsyncThunk(
     thunkApi.dispatch(setLoading(true));
     const { OnSuccess, OnError } = payload;
     const response = await fetch(
-      `http://localhost:8000/api/hospital/location/create `,
+      `${process.env.NEXT_PUBLIC_ADMIN_SIDE_API}/hospital/location/create `,
       {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -83,20 +83,19 @@ export const deleteHostpitalLocations = createAsyncThunk(
   "HospitalLocatonSlice/deleteHostpitalLocations",
   async (payload: DeleteHospitalLocationPayload, thunkApi) => {
     thunkApi.dispatch(setLoading(true));
-    const { OnSuccess, OnError } = payload;
+    const { OnSuccess, OnError, _id } = payload;
     const response = await fetch(
-      `http://localhost:8000/api/hospital/location/create `,
+      `${process.env.NEXT_PUBLIC_ADMIN_SIDE_API}/hospital/location/archive/save/${_id}`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
       }
     );
     const dataFromServer = await response.json();
-    const { hospitalLocation, error, message } = dataFromServer;
+    const { error, message } = dataFromServer;
     if (response.ok) {
       OnSuccess && OnSuccess(message);
-      thunkApi.dispatch(addHospitalLocations(hospitalLocation));
+      thunkApi.dispatch(removeHostpitalLocation(_id));
       thunkApi.dispatch(setLoading(false));
     } else {
       OnError && OnError(error);
@@ -130,6 +129,11 @@ const HospitalLocationSlice = createSlice({
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    removeHostpitalLocation: (state, action: PayloadAction<string>) => {
+      state.hospitalLocations = state.hospitalLocations.filter((item) =>
+        item._id === action.payload ? false : true
+      );
+    },
   },
 });
 
@@ -138,5 +142,6 @@ export const {
   addHospitalLocations,
   setLoading,
   changeHospitalLocation,
+  removeHostpitalLocation,
 } = HospitalLocationSlice.actions;
 export default HospitalLocationSlice.reducer;
