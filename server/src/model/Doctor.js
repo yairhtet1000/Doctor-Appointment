@@ -37,13 +37,6 @@ const DoctorSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    timeTable: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: "Appointment_Time",
-        required: true,
-      },
-    ],
     isArchive: {
       type: Boolean,
       default: false,
