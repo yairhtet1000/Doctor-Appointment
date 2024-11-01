@@ -1,6 +1,10 @@
 GET http://localhost:8000/api/doctorAppointments/
 
 ###
+//archive
+GET http://localhost:8000/api/doctorAppointments/archive/all
+
+###
 //
 GET http://localhost:8000/api/doctorAppointments/670cb0a3e1d7de19023e07f9
 
@@ -13,22 +17,30 @@ Content-Type: application/json
     "appointment_type":"6700ad79f67ac13cffcdab28",
     "doctor_id":"670c9dbf0c21aa3366b93601",
     "date":"2024-09-20T15:00:00Z",
-    "time":"6703c7ed5648674e55b87561"
+    "time":["6703c7ed5648674e55b87561","67208a2ad47258043cdf88a9"]
 }
 
 ###
 //update
-PATCH  http://localhost:8000/api/doctorAppointments/update/670cae7a06cc39c232ab05a8 HTTP/1.1
+PATCH  http://localhost:8000/api/doctorAppointments/update/670cb0a3e1d7de19023e07f9 HTTP/1.1
 Content-Type: application/json
 
 {
-    "appointment_type":"6700ad79f67ac13cffcdab28",
-    "time":"6703c7ed5648674e55b87561",
+    "status":true,
+    "time":["67208a2ad47258043cdf88a9","6703c7ed5648674e55b87561"]
+}
+
+###
+//archive
+PATCH  http://localhost:8000/api/doctorAppointments/archive/save/67221bad5293e7d1a180c2b5 HTTP/1.1
+Content-Type: application/json
+
+{
     "isArchive":false
 }
 
 ###
 //delete appointment
-DELETE http://localhost:8000/api/doctorAppointments/delete/670cb0219dd46db12ae071ba
+DELETE http://localhost:8000/api/doctorAppointments/delete/670cb0a3e1d7de19023e07f9
 
 ###

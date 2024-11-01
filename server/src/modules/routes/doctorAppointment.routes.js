@@ -8,6 +8,11 @@ doctorAppointmentRouter.get(
 );
 
 doctorAppointmentRouter.get(
+  "/archive/all",
+  doctorAppointmentController.getArchiveDoctorAppointments
+);
+
+doctorAppointmentRouter.get(
   "/:doctor_appointment_id",
   doctorAppointmentController.getDoctorAppointment
 );

@@ -20,11 +20,13 @@ const doctorAppointmentSchema = new mongoose.Schema({
     required: true,
     default: false,
   },
-  time: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Appointment_Time",
-    required: true,
-  },
+  time: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment_Time",
+      required: true,
+    },
+  ],
   isArchive: {
     type: Boolean,
     default: false,
