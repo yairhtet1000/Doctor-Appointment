@@ -14,10 +14,10 @@ const getDoctors = async (req, res) => {
 };
 
 const getDoctorByID = async (req, res) => {
-  const { doctorID } = req.params;
+  const { _id } = req.params;
 
   try {
-    const doctor = await Doctor.findById(doctorID);
+    const doctor = await Doctor.findById(_id);
 
     if (!doctor) return res.status(404).json({ error: "Doctor Not Found." });
 
@@ -52,33 +52,31 @@ const createDoctor = async (req, res) => {
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    const doctor = new Doctor(docInfo);
-    await doctor.save();
-    res.status(200).json({ message: "Doctor Created Successfully.", doctor });
+    const newDoctor = new Doctor(docInfo);
+    await newDoctor.save();
+    res
+      .status(200)
+      .json({ message: "Doctor Created Successfully.", newDoctor });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 const updateDoctor = async (req, res) => {
-  const { doctorID } = req.params;
+  const { _id } = req.params;
   const updateRequest = req.body;
 
   try {
-    if (!validator.isMongoId(doctorID.toString()))
+    if (!validator.isMongoId(_id.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
     if (updateRequest.email && !isValidEmail(updateRequest.email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const updatedData = await Doctor.findByIdAndUpdate(
-      doctorID,
-      updateRequest,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updatedData = await Doctor.findByIdAndUpdate(_id, updateRequest, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedData)
       return res.status(404).json({ error: "Doctor Not Found." });
@@ -92,13 +90,13 @@ const updateDoctor = async (req, res) => {
 };
 
 const deleteDoctor = async (req, res) => {
-  const { doctorID } = req.params;
+  const { _id } = req.params;
 
   try {
-    if (!validator.isMongoId(doctorID.toString()))
+    if (!validator.isMongoId(_id.toString()))
       return res.status(400).json({ error: "Enter Valid ID." });
 
-    const deleteDoctor = await Doctor.findByIdAndDelete(doctorID);
+    const deleteDoctor = await Doctor.findByIdAndDelete(_id);
 
     if (!deleteDoctor)
       return res.status(404).json({ error: "Doctor Not Found." });
@@ -110,11 +108,11 @@ const deleteDoctor = async (req, res) => {
 };
 
 const archiveDoctor = async (req, res) => {
-  const { doctorID } = req.params;
+  const { _id } = req.params;
   const isArchive = req.body;
 
   try {
-    const updatedData = await Doctor.findByIdAndUpdate(doctorID, isArchive, {
+    const updatedData = await Doctor.findByIdAndUpdate(_id, isArchive, {
       new: true,
       runValidators: true,
     });

@@ -5,7 +5,7 @@ const jsonwebtoken = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({ role: "user", isBanned: false });
     if (!users) return res.status(404).json({ error: "There Is No User." });
     res.status(200).json({ users });
   } catch (error) {
@@ -13,14 +13,24 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getAdmins = async (req, res) => {
+  try {
+    const admins = await User.find({ role: "admin" });
+    if (!admins) return res.status(404).json({ error: "There Is No Admins." });
+    res.status(200).json({ admins });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const getUserByID = async (req, res) => {
-  const { userID } = req.params;
+  const { _id } = req.params;
 
   try {
-    if (!validator.isMongoId(userID.toString()))
+    if (!validator.isMongoId(_id.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
-    const user = await User.findById(userID);
+    const user = await User.findById(_id);
 
     if (!user) return res.status(404).json({ error: "User Not Found." });
 
@@ -30,21 +40,33 @@ const getUserByID = async (req, res) => {
   }
 };
 
+const getBannedUsers = async (req, res) => {
+  try {
+    const bannedUsers = await User.find({ isBanned: true });
+    if (!bannedUsers)
+      return res.status(404).json({ error: "There Is No Banned Users." });
+    res.status(200).json({ bannedUsers });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
 const createUser = async (req, res) => {
-  const userData = req.body;
+  const { name, email, phone, password } = req.body;
 
   try {
-    if (!isValidEmail(userData.email))
+    if (!isValidEmail(email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const usedEmail = await User.findOne({ email: userData.email });
-    userData.hashedPassword = await argon2.hash(userData.password);
-    delete userData.password;
+    const usedEmail = await User.findOne({ email });
 
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    const user = new User({ userData });
+    hashedPassword = await argon2.hash(password);
+    delete password;
+
+    const user = new User({ name, email, phone, hashedPassword });
     await user.save();
     res.status(200).json({ message: "User Register Successful.", user });
   } catch (error) {
@@ -57,10 +79,11 @@ const userLogin = async (req, res) => {
 
   try {
     const getUser = await User.findOne({ email });
-    const dbsPassword = getUser.hashedPassword;
-    const truePassword = await argon2.verify(dbsPassword, password);
 
     if (!getUser) return res.status(400).json({ error: "Incorrect Email." });
+
+    const dbsPassword = getUser.hashedPassword;
+    const truePassword = await argon2.verify(dbsPassword, password);
 
     if (!truePassword)
       return res.status(400).json({ error: "Incorrect Password." });
@@ -77,11 +100,11 @@ const userLogin = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { userID } = req.params;
+  const { _id } = req.params;
   const updatedData = req.body;
 
   try {
-    if (!validator.isMongoId(userID.toString()))
+    if (!validator.isMongoId(_id.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
     if (updatedData.email && !isValidEmail(updatedData.email))
@@ -92,7 +115,7 @@ const updateUser = async (req, res) => {
       delete updatedData.password;
     }
 
-    const user = await User.findByIdAndUpdate(userID, updatedData, {
+    const user = await User.findByIdAndUpdate(_id, updatedData, {
       new: true,
       runValidators: true,
     });
@@ -108,55 +131,51 @@ const updateUser = async (req, res) => {
 };
 
 const isBanned = async (req, res) => {
-  const { adminID } = req.params;
-  const { email, isBanned } = req.body;
-
-  const isAdmin = await User.findById(adminID);
-  if (isAdmin.role === "user" && isAdmin.role !== "admin")
-    return res.status(402).json({ error: "Only Admin Can Do This Task." });
+  const { _id } = req.params;
+  const isBanned = req.body;
 
   try {
-    const findUser = await User.findOne({ email });
-    if (!findUser) return res.status(404).json({ error: "User Not Found." });
+    const updatedData = await User.findByIdAndUpdate(_id, isBanned, {
+      new: true,
+      runValidators: true,
+    });
 
-    await findUser.updateOne({ isBanned });
+    if (!updatedData) return res.status(404).json({ error: "User Not Found." });
 
-    res.status(200).json({ message: "Successfully Banned User.", findUser });
+    res.status(200).json({ message: "Successfully Banned User.", updatedData });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 const adminAccess = async (req, res) => {
-  const { adminID } = req.params;
-  const { email, role } = req.body;
-
-  const isAdmin = await User.findById(adminID);
-  if (isAdmin.role === "user" && isAdmin.role !== "admin")
-    return res.status(402).json({ error: "Only Admin Can Do This Task." });
+  const { _id } = req.params;
+  const role = req.body;
 
   try {
-    const findUser = await User.findOne({ email });
-    if (!findUser) return res.status(404).json({ error: "User Not Found." });
+    const updatedData = await User.findByIdAndUpdate(_id, role, {
+      new: true,
+      runValidators: true,
+    });
 
-    await findUser.updateOne({ role });
+    if (!updatedData) return res.status(404).json({ error: "User Not Found." });
 
     res
       .status(200)
-      .json({ message: "Successfully Changed User Role.", findUser });
+      .json({ message: "Successfully Changed User Role.", updatedData });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
 const deleteUser = async (req, res) => {
-  const { userID } = req.params;
+  const { _id } = req.params;
 
   try {
-    if (!validator.isMongoId(userID.toString()))
+    if (!validator.isMongoId(_id.toString()))
       return res.status(400).json({ error: "Provide Valid ID." });
 
-    const deleteUser = await User.findByIdAndDelete(userID);
+    const deleteUser = await User.findByIdAndDelete(_id);
 
     if (!deleteUser)
       return res.status(404).json({ error: "Patient Not Found." });
@@ -178,7 +197,9 @@ const isValidEmail = (email) => {
 
 module.exports = {
   getUsers,
+  getAdmins,
   getUserByID,
+  getBannedUsers,
   createUser,
   userLogin,
   updateUser,

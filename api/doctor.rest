@@ -1,34 +1,53 @@
-###
+### GET
 //get all doctors
-GET http://localhost:8000/api/doctors/allDoctor
+GET http://localhost:8000/api/doctors
+
+//get archived doctors
+GET http://localhost:8000/api/doctors/archivedDoctors
 
 //get one doctor
-GET http://localhost:8000/api/doctors/oneDoctor/{doctorID}
+GET http://localhost:8000/api/doctors/:_id
 
-//get archive doctors
-GET http://localhost:8000/api/doctors/archive
 
-###
+### POST
 //create doctor
-POST http://localhost:8000/api/doctors/register HTTP/1.1
+POST http://localhost:8000/api/doctors/create
 Content-Type: application/json
 {
-    {
-    "name":"yaco",
-    "email": "doctor@gmail.com",
-    "phone":"09234542",
-    "specialty":"66ef8bb0b7bd10855c3408d6" //specialty_id
-    }
+    "name": "yh",
+    "email": "yh2@gmail.com",
+    "phone": "1234",
+    "specialty": "66fb71c99394ef4de370df5b", // specialty_id
+    "experience": "3yrs",
+    "description": "fu",
+    "hospitalLocation": "6700b9a102e527fb72a02810", // hospitalLocation_id
+    "image": "hello"
 }
 
-###
+
+### PATCH
 //update doctor
-PATCH http://localhost:8000/api/doctors/update/{doctorID}
+PATCH http://localhost:8000/api/doctors/update/:_id
+Content-Type: application/json
+{
+    "name": "yh",
+    "email": "yh2@gmail.com",
+    "phone": "1234",
+    "specialty": "66fb71c99394ef4de370df5b", // specialty_id
+    "experience": "3yrs",
+    "description": "fu",
+    "hospitalLocation": "6700b9a102e527fb72a02810", // hospitalLocation_id
+    "image": "hello"
+}
 
-###
 //archive doctor
-PATCH http://localhost:8000/api/doctors/archive/{doctorID}
+PATCH http://localhost:8000/api/doctors/archive/:_id
+Content-Type: application/json
+{
+    "isArchive": true
+}
 
-###
+
+### DELETE
 //delete doctor
-DELETE http://localhost:8000/api/doctors/delete/{doctor_id} HTTP/1.1
+DELETE http://localhost:8000/api/doctors/delete/:_id

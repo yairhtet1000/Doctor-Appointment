@@ -6,7 +6,6 @@ const db_uri = process.env.DB_URI;
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
-// const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const doctorRouter = require("./src/modules/routes/doctor.routes");
 const userRouter = require("./src/modules/routes/user.routes");
@@ -16,7 +15,6 @@ const hospitalLocationRouter = require("./src/modules/routes/hospital.routes");
 const doctorAppointmentRouter = require("./src/modules/routes/doctorAppointment.routes");
 
 app.use(express.json());
-// app.use(cookieParser());
 app.use(cors());
 
 app.use("/api/doctors", doctorRouter);

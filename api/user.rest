@@ -1,35 +1,63 @@
-###
-//get all patients
-GET http://localhost:8000/api/users/
+### GET
+//get all users
+GET http://localhost:8000/api/users
 
-//get one patient
-GET http://localhost:8000/api/users/{userID}
+//get one user
+GET http://localhost:8000/api/users/:_id
 
-###
-//create patient
-POST http://localhost:8000/api/users/register HTTP/1.1
+//get admins
+GET http://localhost:8000/api/users/admins
+
+//get all banned users
+GET http://localhost:8000/api/users/bannedUsers
+
+
+### POST
+//user register
+POST http://localhost:8000/api/users/register
 Content-Type: application/json
 {
     "name": "yaco",
     "email": "yaco@gmail.com",
     "phone": 1234,
-    "password": "yaco",
-    "banned":false
+    "password": "yaco"
 }
 
-###
-//login patient
-POST http://localhost:8000/api/users/login HTTP/1.1
+//user login
+POST http://localhost:8000/api/users/login
 Content-Type: application/json
 {
     "email": "yaco@gmail.com",
     "password": "yaco"
 }
 
-###
-//update patient
-PATCH http://localhost:8000/api/users/update/{userID} HTTP/1.1
 
-###
-//delete patient
-DELETE http://localhost:8000/api/users/delete/{userID} HTTP/1.1
+### PATCH
+//update user
+PATCH http://localhost:8000/api/users/update/:_id
+Content-Type: application/json
+{
+    "name": "yh",
+    "email": "yaco@gmail.com",
+    "phone": "1234",
+    "password": "yaco"
+}
+
+//ban user
+PATCH http://localhost:8000/api/users/ban/:_id
+Content-Type: application/json
+{
+    "isBanned": true
+}
+
+//update user role
+PATCH http://localhost:8000/api/users/role/:_id
+Content-Type: application/json
+{
+    "role": "admin"
+}
+
+
+### DELETE
+//delete user
+DELETE http://localhost:8000/api/users/delete/:_id
