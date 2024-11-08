@@ -52,23 +52,23 @@ const getBannedUsers = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-  const { name, email, phone, password } = req.body;
+  const userData = req.body;
 
   try {
-    if (!isValidEmail(email))
+    if (!isValidEmail(userData.email))
       return res.status(400).json({ error: "Invalid Email Format." });
 
-    const usedEmail = await User.findOne({ email });
+    const usedEmail = await User.findOne({ email: userData.email });
 
     if (usedEmail)
       return res.status(400).json({ error: "This email is already in use." });
 
-    hashedPassword = await argon2.hash(password);
-    delete password;
+    userData.hashedPassword = await argon2.hash(userData.password);
+    delete userData.password;
 
-    const user = new User({ name, email, phone, hashedPassword });
-    await user.save();
-    res.status(200).json({ message: "User Register Successful.", user });
+    const newUser = new User(userData);
+    await newUser.save();
+    res.status(200).json({ message: "User Register Successful.", newUser });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
