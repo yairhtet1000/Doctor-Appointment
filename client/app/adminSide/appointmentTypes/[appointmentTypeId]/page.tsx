@@ -60,6 +60,7 @@ const AppointmentTypeDetail = () => {
     dispatch(
       DeleteAppointmentType({
         _id: updateAppointmentType._id,
+        isArchive: true,
         OnSuccess: (message) => {
           toast({ title: message, variant: "default" });
           router.push("/adminSide/appointmentTypes");
@@ -70,7 +71,6 @@ const AppointmentTypeDetail = () => {
       })
     );
   };
-  console.log(updateAppointmentType);
   return (
     <div className="flex flex-col gap-5">
       <AdminSideBackButton to="appointmentTypes" />

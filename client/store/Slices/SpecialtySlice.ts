@@ -87,6 +87,7 @@ export const deleteSpecialty = createAsyncThunk(
       {
         method: "PATCH",
         headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
       }
     );
     const dataFromServer = await response.json();

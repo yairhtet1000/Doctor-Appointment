@@ -19,4 +19,5 @@ export interface UpdateTimePayload extends BaseOption, Time {}
 
 export interface DeleteTimePayload extends BaseOption {
   _id: string;
+  isArchive?: boolean;
 }

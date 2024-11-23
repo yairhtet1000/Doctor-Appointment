@@ -54,6 +54,8 @@ const SpecialtyDetail = () => {
     dispatch(
       deleteSpecialty({
         _id: specialtyId as string,
+        isArchive: true,
+
         OnSuccess: (message) => {
           toast({ title: message, variant: "default" });
           router.push("/adminSide/specialty");

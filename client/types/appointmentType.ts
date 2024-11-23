@@ -22,4 +22,5 @@ export interface UpdateAppointmentTypePayload
 
 export interface DeleteAppointmentTypePayload extends BaseOption {
   _id: string;
+  isArchive?: boolean;
 }

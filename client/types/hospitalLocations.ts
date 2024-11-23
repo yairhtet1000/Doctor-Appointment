@@ -22,4 +22,5 @@ export interface UpdateHospitalLocationPayload
 
 export interface DeleteHospitalLocationPayload extends BaseOption {
   _id: string;
+  isArchive?: boolean;
 }

@@ -19,8 +19,10 @@ import { Button } from "../ui/button";
 import { useState, useTransition } from "react";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { useRouter } from "next/navigation";
 
 export const RegisterForm = () => {
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransistion] = useTransition();
@@ -30,7 +32,28 @@ export const RegisterForm = () => {
     defaultValues: { email: "", password: "", name: "", phone: "" },
   });
 
-  const onSubmit = (value: z.infer<typeof RegisterSchema>) => {};
+  const onSubmit = (value: z.infer<typeof RegisterSchema>) => {
+    const validatedFields = RegisterSchema.safeParse(value);
+    console.log(validatedFields);
+    if (!validatedFields.success) {
+      return setError("Invalid fields!");
+    }
+    startTransistion(async () => {
+      const response = await fetch(`http://localhost:8000/api/users/register`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(validatedFields.data),
+      });
+      const dataFromServer = await response.json();
+      const { message, error } = dataFromServer;
+      if (response.ok) {
+        setSuccess(message);
+        router.push("/auth/login");
+      } else {
+        setError(error);
+      }
+    });
+  };
   return (
     <CardWrapper
       headerLabel="Create an Account"

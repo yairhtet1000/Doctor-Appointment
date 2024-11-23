@@ -47,6 +47,8 @@ import { getHospitalLocatons } from "@/store/Slices/hospitalLocationSlice";
 import { GetDoctors } from "@/store/Slices/DoctorSlice";
 import { getTimes } from "@/store/Slices/TimeSlice";
 import { getAppointmentTypes } from "@/store/Slices/AppointmentTypeSlice";
+import { getAppointmentTime } from "@/store/Slices/AppointmentTimeSlice";
+import { GetPatients } from "@/store/Slices/PatientSlice";
 
 interface Prop {
   children: ReactNode;
@@ -116,6 +118,8 @@ const adminSideLayout = ({ children }: Prop) => {
     dispatch(GetDoctors());
     dispatch(getTimes());
     dispatch(getAppointmentTypes());
+    dispatch(getAppointmentTime());
+    dispatch(GetPatients());
   }, []);
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">

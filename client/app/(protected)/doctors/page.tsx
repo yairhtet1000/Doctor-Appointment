@@ -1,8 +1,11 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import TestPhoto from "../../../public/doctor.png";
 import Link from "next/link";
+import { useAppSelector } from "@/store/hooks";
 const DoctorPage = () => {
+  const {} = useAppSelector((state) => state.Doctor);
   return (
     <div className="flex flex-col gap-10 items-center">
       <div>

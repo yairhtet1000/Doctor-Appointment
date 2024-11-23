@@ -4,6 +4,8 @@ import SpecialtySliceReducer from "../store/Slices/SpecialtySlice";
 import HospitalLocationReducer from "../store/Slices/hospitalLocationSlice";
 import TimeReducer from "../store/Slices/TimeSlice";
 import AppointmentTypeReducer from "../store/Slices/AppointmentTypeSlice";
+import AppointmentTimeReducer from "../store/Slices/AppointmentTimeSlice";
+import PatientReducer from "../store/Slices/PatientSlice";
 export const store = configureStore({
   reducer: {
     Doctor: DoctorSliceReducer,
@@ -11,6 +13,8 @@ export const store = configureStore({
     HospitalLocation: HospitalLocationReducer,
     Time: TimeReducer,
     AppointmentType: AppointmentTypeReducer,
+    AppointmentTime: AppointmentTimeReducer,
+    Patients: PatientReducer,
   },
 });
 

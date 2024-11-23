@@ -2,6 +2,7 @@
 import AdminSideBackButton from "@/components/adminSide/adminSideBackButton";
 import DeleteButtonDialog from "@/components/adminSide/deleteButtonDialog";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -37,6 +38,7 @@ const HospitalLocationDetails = () => {
     dispatch(
       updateHospitalLocation({
         ...updateHospitalLocaion,
+
         OnSuccess: (message) => {
           toast({ title: message, variant: "default" });
           router.push("/adminSide/hospitalLocations");
@@ -51,6 +53,7 @@ const HospitalLocationDetails = () => {
     dispatch(
       deleteHostpitalLocations({
         _id: hospitalLocationId as string,
+        isArchive: true as boolean,
         OnSuccess: (message) => {
           toast({ title: message, variant: "default" });
           router.push("/adminSide/hospitalLocations");
@@ -61,6 +64,7 @@ const HospitalLocationDetails = () => {
       })
     );
   };
+
   return (
     <div>
       <AdminSideBackButton to="hospitalLocations" />
@@ -87,6 +91,7 @@ const HospitalLocationDetails = () => {
             })
           }
         />
+
         <div className="w-full flex justify-between">
           <Button
             className="w-fit bg-green-600 hover:bg-green-500 text-white"

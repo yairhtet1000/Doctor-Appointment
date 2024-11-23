@@ -22,25 +22,26 @@ import { newDoctor } from "@/types/doctor";
 import { MultiSelect } from "./multiSelecter";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { CreateDoctor } from "@/store/Slices/DoctorSlice";
-import { hospitalLocation } from "@/types/hospitalLocations";
+import { useToast } from "@/hooks/use-toast";
 
-interface Prop {
-  hospitalLocations: hospitalLocation[];
-}
-
-const AddNewDoctorButton = ({ hospitalLocations }: Prop) => {
+const AddNewDoctorButton = () => {
+  const dispatch = useAppDispatch();
+  const { toast } = useToast();
+  const { hospitalLocations } = useAppSelector(
+    (state) => state.HospitalLocation
+  );
+  const { times } = useAppSelector((state) => state.Time);
+  const { specialties } = useAppSelector((state) => state.Specialty);
   const [newDoctor, setNewDoctor] = useState<newDoctor>({
     name: "",
     phone: "",
     specialty: "",
     experience: "",
     description: "",
-    hospitalLocationId: "",
-    image: "",
+    hospitalLocation: "",
+    image: "a",
     email: "",
-    timeTable: [],
   });
-  const dispatch = useAppDispatch();
 
   const handleAddDoctor = () => {
     if (
@@ -48,133 +49,137 @@ const AddNewDoctorButton = ({ hospitalLocations }: Prop) => {
       !newDoctor.phone &&
       !newDoctor.specialty &&
       !newDoctor.experience &&
-      !newDoctor.description &&
-      !newDoctor.image &&
-      newDoctor.timeTable.length <= 0
+      !newDoctor.description
     ) {
       return;
     }
     dispatch(
       CreateDoctor({
         ...newDoctor,
-        OnSuccess: () => {
-          console.log("success");
+        OnSuccess: (message) => {
+          toast({ title: message, variant: "default" });
         },
         OnError: (error) => {
-          console.log(error);
+          toast({ title: error, variant: "destructive" });
         },
       })
     );
   };
-  const frameworksList = [
-    {
-      value: "4-5pm",
-      label: "4-5pm",
-    },
-    {
-      value: "5-6pm",
-      label: "5-6pm",
-    },
-    {
-      value: "6-7pm",
-      label: "6-7pm",
-    },
-    {
-      value: "7-8pm",
-      label: "7-8pm",
-    },
-    {
-      value: "8-9pm",
-      label: "8-9pm",
-    },
-  ];
-  return (
-    <>
-      <Dialog>
-        <DialogTrigger>
-          <Button>+ Add New Doctor</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add New Doctor</DialogTitle>
-          </DialogHeader>
-          <p> Name</p>
-          <Input
-            placeholder="Name"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, name: e.target.value });
-            }}
-          />
-          <p> Email</p>
-          <Input
-            placeholder="Skill"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, email: e.target.value });
-            }}
-          />
-          <p> Phone</p>
-          <Input
-            placeholder="Phone"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, phone: e.target.value });
-            }}
-          />
-          <p> specialty</p>
-          <Input
-            placeholder="specialty"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, specialty: e.target.value });
-            }}
-          />
-          <p> Experience</p>
-          <Input
-            placeholder="Experience"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, experience: e.target.value });
-            }}
-          />
-          <p> Description</p>
-          <Input
-            placeholder="Discription"
-            onChange={(e) => {
-              setNewDoctor({ ...newDoctor, description: e.target.value });
-            }}
-          />
-          <p>Hospital Location </p>
-          <Select
-            onValueChange={(e) => {
-              setNewDoctor({ ...newDoctor, hospitalLocationId: e });
-            }}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Hospital Location" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Hostpital</SelectLabel>
 
-                {hospitalLocations.map((item) => {
-                  return (
-                    <SelectItem value={item._id} key={item._id}>
-                      {item.city}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <p>Time Table</p>
-          <MultiSelect
-            options={frameworksList}
-            onValueChange={(e) => {
-              const selectedTimeTable = e as [];
-              setNewDoctor({ ...newDoctor, timeTable: selectedTimeTable });
-            }}
-          />
-          <Button onClick={handleAddDoctor}>Add</Button>
-        </DialogContent>
-      </Dialog>
-    </>
+  const timeArr = times.map((item) => {
+    const arr = { value: item._id, label: item.time };
+    return arr;
+  });
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>+ Add New Doctor</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add New Doctor</DialogTitle>
+        </DialogHeader>
+        <div className="grid grid-cols-2 gap-5">
+          <div>
+            <p> Name</p>
+            <Input
+              placeholder="Name"
+              onChange={(e) => {
+                setNewDoctor({ ...newDoctor, name: e.target.value });
+              }}
+            />
+          </div>
+          <div>
+            <p> Email</p>
+            <Input
+              placeholder="Skill"
+              onChange={(e) => {
+                setNewDoctor({ ...newDoctor, email: e.target.value });
+              }}
+            />
+          </div>
+          <div>
+            <p> Phone</p>
+            <Input
+              placeholder="Phone"
+              onChange={(e) => {
+                setNewDoctor({ ...newDoctor, phone: e.target.value });
+              }}
+            />
+          </div>
+          <div>
+            <p> specialty</p>
+            <Select
+              onValueChange={(e) => {
+                setNewDoctor({ ...newDoctor, specialty: e });
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Specialty" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Specialty</SelectLabel>
+
+                  {specialties.map((item) => {
+                    return (
+                      <SelectItem value={item._id} key={item._id}>
+                        {item.name}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <p> Experience</p>
+            <Input
+              placeholder="Experience"
+              onChange={(e) => {
+                setNewDoctor({ ...newDoctor, experience: e.target.value });
+              }}
+            />
+          </div>
+          <div>
+            <p> Description</p>
+            <Input
+              placeholder="Discription"
+              onChange={(e) => {
+                setNewDoctor({ ...newDoctor, description: e.target.value });
+              }}
+            />
+          </div>
+          <div>
+            <p>Hospital Location </p>
+            <Select
+              onValueChange={(e) => {
+                setNewDoctor({ ...newDoctor, hospitalLocation: e });
+              }}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Hospital Location" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Hostpital</SelectLabel>
+
+                  {hospitalLocations.map((item) => {
+                    return (
+                      <SelectItem value={item._id} key={item._id}>
+                        {item.city}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <Button onClick={handleAddDoctor}>Add</Button>
+      </DialogContent>
+    </Dialog>
   );
 };
 export default AddNewDoctorButton;

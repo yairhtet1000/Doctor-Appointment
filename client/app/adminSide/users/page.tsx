@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,9 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useAppSelector } from "@/store/hooks";
 import Link from "next/link";
 
 const Users = () => {
+  const { patients } = useAppSelector((state) => state.Patients);
   return (
     <Table>
       <TableCaption>User Lists</TableCaption>
@@ -20,23 +23,29 @@ const Users = () => {
           <TableHead>Id</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Email</TableHead>
+          <TableHead>Phone</TableHead>
           <TableHead>Action</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>33</TableCell>
-          <TableCell>HOLa</TableCell>
-          <TableCell>afjdsl@gmail.com</TableCell>
-          <TableCell>
-            <Link
-              href="#"
-              className="bg-red-500 text-white rounded-xl px-3 py-2"
-            >
-              Ban
-            </Link>
-          </TableCell>
-        </TableRow>
+        {patients.map((item, index) => {
+          return (
+            <TableRow>
+              <TableCell>{index}</TableCell>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.email}</TableCell>
+              <TableCell>{item.phone}</TableCell>
+              <TableCell>
+                <Link
+                  href="#"
+                  className="bg-red-500 text-white rounded-xl px-3 py-2"
+                >
+                  Ban
+                </Link>
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

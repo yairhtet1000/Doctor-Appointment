@@ -1,5 +1,4 @@
 import { BaseOption } from "./BaseOption";
-import { hospitalLocation } from "./hospitalLocations";
 
 export interface doctorSlice extends BaseOption {
   doctors: Doctor[];
@@ -15,7 +14,7 @@ export interface Doctor {
   specialty: string;
   experience: string;
   description: string;
-  hospitalLocationId: string;
+  hospitalLocation: string;
   image: string;
   isArchive: boolean;
 }
@@ -27,7 +26,11 @@ export interface newDoctor extends BaseOption {
   specialty: string;
   experience: string;
   description: string;
-  hospitalLocationId: string;
+  hospitalLocation: string;
   image: string;
-  timeTable: [];
+}
+export interface UpdateDoctorPayLoad extends BaseOption, Doctor {}
+export interface DeleteDoctorPayload extends BaseOption {
+  _id: string;
+  isArchive?: boolean;
 }

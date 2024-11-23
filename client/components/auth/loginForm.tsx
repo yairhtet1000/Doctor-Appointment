@@ -16,11 +16,14 @@ import { Input } from "../ui/input";
 import { LoginSchema } from "@/schemas";
 import { Button } from "../ui/button";
 import { useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { useAppDispatch } from "@/store/hooks";
 export const LoginForm = () => {
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const urlError =
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use with different provider!"
@@ -34,7 +37,26 @@ export const LoginForm = () => {
     defaultValues: { email: "", password: "" },
   });
 
-  const onSubmit = (value: z.infer<typeof LoginSchema>) => {};
+  const onSubmit = async (value: z.infer<typeof LoginSchema>) => {
+    const validatedFields = LoginSchema.safeParse(value);
+    console.log(validatedFields);
+    if (!validatedFields.success) {
+      return setError("Invalid fields!");
+    }
+    const response = await fetch(`http://localhost:8000/api/users/login`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(validatedFields.data),
+    });
+    const dataFromServer = await response.json();
+    const { message, error } = dataFromServer;
+    if (response.ok) {
+      setSuccess(message);
+      router.push("/home");
+    } else {
+      setError(error);
+    }
+  };
   return (
     <CardWrapper
       headerLabel="Welcome Back"

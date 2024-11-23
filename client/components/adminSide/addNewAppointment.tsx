@@ -1,6 +1,7 @@
 "use client";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -27,39 +28,56 @@ import {
 } from "@/components/ui/select";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
-import { appoitmentTime } from "@/types/appoitmentTime";
+import { NewAppoinementTimePayload } from "@/types/appoitmentTime";
 import { MultiSelect } from "./multiSelecter";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useToast } from "@/hooks/use-toast";
+import { CreateAppointmentTime } from "@/store/Slices/AppointmentTimeSlice";
 const AddNewAppointment = () => {
-  const frameworksList = [
-    {
-      value: "4-5pm",
-      label: "4-5pm",
-    },
-    {
-      value: "5-6pm",
-      label: "5-6pm",
-    },
-    {
-      value: "6-7pm",
-      label: "6-7pm",
-    },
-    {
-      value: "7-8pm",
-      label: "7-8pm",
-    },
-    {
-      value: "8-9pm",
-      label: "8-9pm",
-    },
-  ];
-  const [newAppoitment, setNewAppoitment] = useState<appoitmentTime>({
-    AppoitmentName: "",
-    DoctorName: "",
-    Status: "",
-    Date: null,
-    time: [],
+  const { appointmentTypes } = useAppSelector((state) => state.AppointmentType);
+  const { doctors } = useAppSelector((state) => state.Doctor);
+  const { times } = useAppSelector((state) => state.Time);
+  const { isLoading } = useAppSelector((state) => state.AppointmentTime);
+  const dispatch = useAppDispatch();
+  const { toast } = useToast();
+
+  const timeData = times.map((item) => {
+    const value = item._id;
+    const label = item.time;
+    return { value, label };
   });
-  console.log(newAppoitment);
+  const [newAppoitment, setNewAppoitment] = useState<NewAppoinementTimePayload>(
+    {
+      appointment_type: "",
+      doctor_id: "",
+      status: "",
+      date: undefined,
+      isArchive: false,
+      time: [],
+    }
+  );
+  const handleCreateAppointment = () => {
+    if (
+      !newAppoitment.appointment_type ||
+      !newAppoitment.doctor_id ||
+      !newAppoitment.status ||
+      !newAppoitment.date ||
+      !newAppoitment.time
+    ) {
+      return toast({ title: "Fill Out All Field", variant: "destructive" });
+    }
+    dispatch(
+      CreateAppointmentTime({
+        ...newAppoitment,
+        OnSuccess: (message) => {
+          toast({ title: message, variant: "default" });
+        },
+        OnError: (error) => {
+          toast({ title: error, variant: "destructive" });
+        },
+      })
+    );
+  };
   return (
     <Dialog>
       <DialogTrigger>
@@ -72,7 +90,7 @@ const AddNewAppointment = () => {
         <p>Appoitment Name</p>
         <Select
           onValueChange={(e) => {
-            setNewAppoitment({ ...newAppoitment, AppoitmentName: e });
+            setNewAppoitment({ ...newAppoitment, appointment_type: e });
           }}
         >
           <SelectTrigger className="">
@@ -81,18 +99,20 @@ const AddNewAppointment = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Appointment Type</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              {appointmentTypes.map((item) => {
+                return (
+                  <SelectItem value={item._id} key={item._id}>
+                    {item.typeName}
+                  </SelectItem>
+                );
+              })}
             </SelectGroup>
           </SelectContent>
         </Select>
         <p>Doctor </p>
         <Select
           onValueChange={(e) => {
-            setNewAppoitment({ ...newAppoitment, DoctorName: e });
+            setNewAppoitment({ ...newAppoitment, doctor_id: e });
           }}
         >
           <SelectTrigger className="">
@@ -101,18 +121,20 @@ const AddNewAppointment = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Doctor</SelectLabel>
-              <SelectItem value="apple">Apple</SelectItem>
-              <SelectItem value="banana">Banana</SelectItem>
-              <SelectItem value="blueberry">Blueberry</SelectItem>
-              <SelectItem value="grapes">Grapes</SelectItem>
-              <SelectItem value="pineapple">Pineapple</SelectItem>
+              {doctors.map((item) => {
+                return (
+                  <SelectItem value={item._id} key={item._id}>
+                    {item.name}
+                  </SelectItem>
+                );
+              })}
             </SelectGroup>
           </SelectContent>
         </Select>
         <p>Status</p>
         <Select
           onValueChange={(e) => {
-            setNewAppoitment({ ...newAppoitment, Status: e });
+            setNewAppoitment({ ...newAppoitment, status: e });
           }}
         >
           <SelectTrigger className="">
@@ -121,8 +143,16 @@ const AddNewAppointment = () => {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Status</SelectLabel>
-              <SelectItem value="true">Available</SelectItem>
-              <SelectItem value="false">Unabailable</SelectItem>
+              <SelectItem //@ts-ignore
+                value={true}
+              >
+                Available
+              </SelectItem>
+              <SelectItem //@ts-ignore
+                value={false}
+              >
+                Unabailable
+              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>{" "}
@@ -133,12 +163,12 @@ const AddNewAppointment = () => {
               variant={"outline"}
               className={cn(
                 " justify-start text-left font-normal",
-                !newAppoitment.Date && "text-muted-foreground"
+                !newAppoitment.date && "text-muted-foreground"
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              {newAppoitment.Date ? (
-                format(newAppoitment.Date as Date, "PPP")
+              {newAppoitment.date ? (
+                format(newAppoitment.date as Date, "PPP")
               ) : (
                 <span>Pick a date</span>
               )}
@@ -147,9 +177,9 @@ const AddNewAppointment = () => {
           <PopoverContent className=" p-0">
             <Calendar
               mode="single"
-              selected={newAppoitment.Date as Date}
+              selected={newAppoitment.date as Date}
               onSelect={(e) => {
-                setNewAppoitment({ ...newAppoitment, Date: e as Date });
+                setNewAppoitment({ ...newAppoitment, date: e as Date });
               }}
               initialFocus
             />
@@ -157,13 +187,21 @@ const AddNewAppointment = () => {
         </Popover>
         <p>Appointment Time</p>
         <MultiSelect
-          options={frameworksList}
+          options={timeData}
           onValueChange={(e) => {
             const selectedTimeTable = e as [];
             setNewAppoitment({ ...newAppoitment, time: selectedTimeTable });
           }}
         />
-        <Button>Add</Button>
+        <DialogClose>
+          <Button
+            onClick={handleCreateAppointment}
+            disabled={isLoading}
+            className="w-full"
+          >
+            Add
+          </Button>
+        </DialogClose>
       </DialogContent>
     </Dialog>
   );

@@ -1,6 +1,5 @@
 "use client";
-import AddNewDoctorButton from "@/components/adminSide/addNewDoctorButton";
-import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -29,7 +28,7 @@ const Doctors = () => {
   return (
     <div>
       <div className="flex justify-end">
-        <ClientOnlyComponent hospitalLocations={hospitalLocations} />
+        <ClientOnlyComponent />
       </div>
       <Table>
         <TableCaption>Doctors Lists</TableCaption>
@@ -38,12 +37,9 @@ const Doctors = () => {
             <TableHead>Id</TableHead>
             <TableHead>Doctor Name</TableHead>
             <TableHead>Email</TableHead>
-            <TableHead>Specialty</TableHead>
-            <TableHead>Experience</TableHead>
             <TableHead>Phone</TableHead>
-            <TableHead>Discription</TableHead>
-            <TableHead>Location</TableHead>
             <TableHead>Image</TableHead>
+            <TableHead>Hospital Location</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -54,19 +50,24 @@ const Doctors = () => {
                 <TableCell>{index}</TableCell>
                 <TableCell>{doctor.name}</TableCell>
                 <TableCell>{doctor.email}</TableCell>
-                <TableCell>{doctor.specialty}</TableCell>
-                <TableCell>{doctor.experience}</TableCell>
                 <TableCell>{doctor.phone}</TableCell>
-                <TableCell>{doctor.description}</TableCell>
-                <TableCell>{doctor.hospitalLocationId}</TableCell>
                 <TableCell>{doctor.image}</TableCell>
+                <TableCell>
+                  {
+                    <>
+                      {hospitalLocations.find(
+                        (loc) => loc._id === doctor.hospitalLocation
+                      )?.city || "N/A"}
+                    </>
+                  }
+                </TableCell>
 
                 <TableCell>
                   <Link
                     href={`/adminSide/doctors/${doctor._id}`}
                     className="bg-green-500 text-white rounded-xl px-3 py-2"
                   >
-                    Edit
+                    Details
                   </Link>
                 </TableCell>
               </TableRow>

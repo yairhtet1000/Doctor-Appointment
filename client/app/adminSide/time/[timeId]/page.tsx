@@ -50,6 +50,8 @@ const TimeDetail = () => {
     dispatch(
       deleteTime({
         _id: timeId as string,
+        isArchive: true,
+
         OnSuccess: (message) => {
           toast({ title: message, variant: "default" });
           router.push("/adminSide/time");

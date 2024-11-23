@@ -19,4 +19,5 @@ export interface UpdateSpecialtyPayload extends BaseOption, Specialty {}
 
 export interface DeleteSpecialtyPayload extends BaseOption {
   _id: string;
+  isArchive?: boolean;
 }
